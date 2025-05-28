@@ -6,10 +6,30 @@ const cardNames = [
 // 중복 클릭 방지
 let selected = false;
 
+// 완료 버튼 누름 여부
+let selectionEnabled = false;
+
+// ✅ "완료" 버튼 클릭 시 실행
+function enableSelection() {
+  const question = document.getElementById('userQuestion').value.trim();
+  if (!question) {
+    alert("질문을 먼저 입력해주세요.");
+    return;
+  }
+  selectionEnabled = true;
+  alert("이제 카드를 선택할 수 있습니다.");
+}
+
+// ✅ 카드 선택 함수
 function selectCard(cardElement, index) {
   const question = document.getElementById('userQuestion').value.trim();
 
-  // ✅ 질문이 없으면 카드 선택 불가
+  // ✅ 완료 버튼을 누르지 않았으면 카드 선택 불가
+  if (!selectionEnabled) {
+    alert("먼저 질문을 입력하고 '완료' 버튼을 눌러주세요.");
+    return;
+  }
+
   if (!question) {
     alert("질문을 먼저 작성해주세요!");
     return;
@@ -43,6 +63,7 @@ function selectCard(cardElement, index) {
   });
 }
 
+// ✅ AI 응답 처리 함수
 function callAPI(index) {
   const question = document.getElementById('userQuestion').value;
   const spinner = document.getElementById('spinner');
@@ -60,12 +81,3 @@ function callAPI(index) {
     })
   })
     .then(res => res.json())
-    .then(data => {
-      spinner.style.display = 'none';
-      resultArea.innerText = data.result;
-    })
-    .catch(err => {
-      spinner.style.display = 'none';
-      resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
-    });
-}
