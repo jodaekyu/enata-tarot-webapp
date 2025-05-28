@@ -1,106 +1,91 @@
-<!-- ... (생략된 head 및 body 앞부분은 그대로 유지) -->
+document.addEventListener("DOMContentLoaded", function () {
+  const questionInput = document.getElementById("userQuestion");
+  const cards = document.querySelectorAll(".card");
+  const spinner = document.getElementById("spinner");
+  const resultArea = document.getElementById("resultArea");
+  let cardSelected = false;
 
-<script>
   const cardList = [
-    {
-      name: "The Fool",
-      position: "정방향",
-      meaning: "새로운 시작, 자유로움"
-    },
-    {
-      name: "The Lovers",
-      position: "정방향",
-      meaning: "사랑, 조화"
-    },
-    {
-      name: "The Star",
-      position: "정방향",
-      meaning: "희망, 영감, 치유"
-    }
+    { name: "The Fool", position: "정방향", meaning: "새 출발과 자유" },
+    { name: "The Magician", position: "정방향", meaning: "능력과 기회" },
+    { name: "The High Priestess", position: "정방향", meaning: "직관과 비밀" },
+    { name: "The Empress", position: "정방향", meaning: "풍요와 안정감" },
+    { name: "The Emperor", position: "정방향", meaning: "권위와 책임감" },
+    { name: "The Lovers", position: "정방향", meaning: "사랑과 관계" },
+    { name: "The Chariot", position: "정방향", meaning: "전진과 결단력" },
+    { name: "Strength", position: "정방향", meaning: "인내와 용기" },
+    { name: "The Hermit", position: "정방향", meaning: "고독과 성찰" },
+    { name: "The Wheel of Fortune", position: "정방향", meaning: "운명의 전환" },
+    { name: "Justice", position: "정방향", meaning: "공정함과 판단" },
+    { name: "The Hanged Man", position: "정방향", meaning: "희생과 관점 변화" },
+    { name: "Death", position: "정방향", meaning: "끝과 새로운 시작" },
+    { name: "Temperance", position: "정방향", meaning: "조화와 치유" },
+    { name: "The Devil", position: "정방향", meaning: "유혹과 집착" },
+    { name: "The Tower", position: "정방향", meaning: "예기치 못한 변화" },
+    { name: "The Star", position: "정방향", meaning: "희망과 영감" },
+    { name: "The Moon", position: "정방향", meaning: "혼란과 불확실성" },
+    { name: "The Sun", position: "정방향", meaning: "성공과 기쁨" },
+    { name: "Judgement", position: "정방향", meaning: "깨달음과 재탄생" },
+    { name: "The World", position: "정방향", meaning: "완성과 성취" }
   ];
 
-  let selected = false;
-  let selectionEnabled = false;
-
-  function enableSelection() {
-    const question = document.getElementById('userQuestion').value.trim();
-    if (!question) {
-      alert("질문을 먼저 입력해주세요.");
-      return;
-    }
-    selectionEnabled = true;
-    alert("이제 카드를 선택할 수 있습니다.");
-  }
-
-  function selectCard(cardElement, index) {
-    const question = document.getElementById('userQuestion').value.trim();
-    if (!selectionEnabled) {
-      alert("먼저 질문을 입력하고 '완료' 버튼을 눌러주세요.");
-      return;
-    }
-    if (!question) {
-      alert("질문을 먼저 작성해주세요!");
-      return;
-    }
-    if (selected) return;
-    selected = true;
-
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, i) => {
-      card.classList.add('clicked');
-      if (i === index) {
-        const cardName = cardList[index].name.replaceAll(" ", "_") + ".png";
-        const frontImg = card.querySelector(".card-front img");
-        frontImg.src = "images/universal_tarot_images/" + cardName;
-
-        card.classList.add('glow');
-        setTimeout(() => {
-          card.classList.add('flip');
-          setTimeout(() => {
-            callAPI(index);
-          }, 800);
-        }, 300);
-      } else {
-        card.classList.add('blurred');
+  cards.forEach((card, index) => {
+    card.addEventListener("click", () => {
+      const question = questionInput.value.trim();
+      if (!question) {
+        alert("질문을 먼저 작성해주세요.");
+        return;
       }
-    });
-  }
+      if (cardSelected) return;
 
-  async function callAPI(index) {
-    const question = document.getElementById('userQuestion').value;
-    const spinner = document.getElementById('spinner');
-    const resultArea = document.getElementById('resultArea');
+      cardSelected = true;
 
-    spinner.style.display = 'block';
-    resultArea.innerText = '';
-    resultArea.style.display = 'block';
-
-    const selectedCard = cardList[index];
-
-    try {
-      const response = await fetch('https://enata-tarot-api-v2.onrender.com/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          question,
-          cards: [{
-            name: selectedCard.name,
-            position: selectedCard.position,
-            meaning: selectedCard.meaning
-          }]
-        })
+      cards.forEach((c, i) => {
+        if (i !== index) {
+          c.classList.add("blurred");
+        }
       });
 
-      const data = await response.json();
-      spinner.style.display = 'none';
-      resultArea.innerText = data.result;
-    } catch (err) {
-      spinner.style.display = 'none';
-      resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
-    }
+      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+      const frontImg = card.querySelector(".card-front img");
+      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
+
+      card.classList.add("glow");
+      setTimeout(() => {
+        card.classList.add("flip");
+        setTimeout(() => {
+          showResult(selectedCard);
+        }, 800);
+      }, 300);
+    });
+  });
+
+  function showResult(card) {
+    spinner.style.display = "block";
+    resultArea.innerText = "";
+    resultArea.style.display = "block";
+
+    fetch("https://enata-tarot-api-v2.onrender.com/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: questionInput.value,
+        cards: [card]
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        spinner.style.display = "none";
+        resultArea.innerText = truncateTo100(data.result);
+      })
+      .catch(err => {
+        spinner.style.display = "none";
+        resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+        console.error("🔥 API 오류:", err);
+      });
   }
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+  function truncateTo100(text) {
+    return text.replace(/\s+/g, " ").trim().slice(0, 100);
   }
-</script>
+});
