@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>에나타 AI 샘</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0d0d0d" />
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>에나타 AI 샘</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<link href="manifest.json" rel="manifest">
+<meta content="#0d0d0d" name="theme-color"/>
+<style>
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
@@ -158,44 +159,62 @@
   }
 }
 
+
+@keyframes inputPlaceholderSlide {
+  0% { transform: translateX(100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
+
+input::placeholder {
+  animation: inputPlaceholderSlide 12s linear infinite;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+body {
+  background-color: #000;
+  font-family: 'Outfit', serif;
+  color: #fff;
+}
+
+.card.glow {
+  box-shadow: 0 0 30px #c6f, 0 0 60px #9cf;
+}
 </style>
-</head>
+</link></head>
 <body>
-  <h1>에나타 AI 샘</h1>
-
-  <div class="question-area">
-    <input type="text" id="userQuestion" placeholder="여기에 질문을 입력하고 완료 버튼을 누르세요" />
-    <button id="submitQuestion">완료</button>
-  </div>
-  <p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
-
-  <div class="cards" id="cardArea">
-    <div class="card" onclick="selectCard(this, 0)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-    <div class="card" onclick="selectCard(this, 1)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-    <div class="card" onclick="selectCard(this, 2)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="spinner" id="spinner" style="display:none;">잠시만 기다려줘...</div>
-  <div class="result" id="resultArea" style="display: none;"></div>
-
-  <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
-
-  <script>
+<h1 style="font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #f0c, 0 0 20px #90f, 0 0 30px #f0c;">에나타 AI 샘</h1>
+<div class="question-area">
+<input id="userQuestion" placeholder="여기에 질문을 입력하고 완료 버튼을 누르세요" style="width: 80%; font-size: 1rem; padding: 0.5em;" type="text"/>
+<button id="submitQuestion">완료</button>
+</div>
+<p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
+<div class="cards" id="cardArea">
+<div class="card" onclick="selectCard(this, 0)">
+<div class="card-inner">
+<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
+<div class="card-front"><img/></div>
+</div>
+</div>
+<div class="card" onclick="selectCard(this, 1)">
+<div class="card-inner">
+<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
+<div class="card-front"><img/></div>
+</div>
+</div>
+<div class="card" onclick="selectCard(this, 2)">
+<div class="card-inner">
+<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
+<div class="card-front"><img/></div>
+</div>
+</div>
+</div>
+<div class="spinner" id="spinner" style="display:none;">잠시만 기다려줘...</div>
+<div class="result" id="resultArea" style="display: none;"></div>
+<a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&amp;entry=pll" target="_blank">바로 상담하기</a>
+<script>
     let cardList = [
       {
         name: "The Fool",
