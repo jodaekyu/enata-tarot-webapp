@@ -7,7 +7,7 @@
 <title>에나타 AI 샘</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
-<link href="manifest.json" rel="manifest">
+<link href="manifest.json" rel="manifest"/>
 <meta content="#0d0d0d" name="theme-color"/>
 <style>
     body {
@@ -160,15 +160,12 @@
 }
 
 
-@keyframes inputPlaceholderSlide {
   0% { transform: translateX(100%); opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { transform: translateX(-100%); opacity: 0; }
 }
 
-input::placeholder {
-  animation: inputPlaceholderSlide 12s linear infinite;
   display: inline-block;
   white-space: nowrap;
 }
@@ -182,8 +179,57 @@ body {
 .card.glow {
   box-shadow: 0 0 30px #c6f, 0 0 60px #9cf;
 }
+
+.question-area {
+  text-align: center;
+  margin: 1em auto;
+}
+
+#userQuestion {
+  width: 80%;
+  max-width: 500px;
+  font-size: 1rem;
+  padding: 0.6em;
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+}
+
+#submitQuestion {
+  display: block;
+  margin: 1em auto;
+  padding: 0.6em 1.5em;
+  background-color: #f9c74f;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  width: fit-content;
+}
+
+@media (max-width: 600px) {
+  #userQuestion {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  #submitQuestion {
+    font-size: 1rem;
+    padding: 0.5em 1.2em;
+    min-width: 150px;
+    width: auto;
+    margin: 0.8em auto;
+  }
+
+  .consult-button {
+    min-width: 150px;
+    width: auto;
+    display: block;
+    margin: 1em auto;
+  }
+}
 </style>
-</link></head>
+</head>
 <body>
 <h1 style="font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #f0c, 0 0 20px #90f, 0 0 30px #f0c;">에나타 AI 샘</h1>
 <div class="question-area">
