@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>에나타 AI 샘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+    input {
+      width: 100%;
+      max-width: 500px;
+      box-sizing: border-box;
+    }
+    .instruction {
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      input {
+        font-size: 1rem;
+        padding: 0.8rem;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 별빛 배경 -->
+  <div class="starlight-background">
+    <!-- 30개 별 -->
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <h1>에나타 AI 샘</h1>
+
+  <input type="text" id="userQuestion" placeholder="질문을 입력하세요 (예: 썸 타는 사람과 잘 될까요?)" />
+  <p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
+
+  <div class="cards" id="cardArea">
+    <div class="card" onclick="selectCard(this, 0)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+    <div class="card" onclick="selectCard(this, 1)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+    <div class="card" onclick="selectCard(this, 2)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner" id="spinner"></div>
+  <div class="result" id="resultArea"></div>
+
+  <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
+
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
