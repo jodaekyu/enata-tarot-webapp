@@ -63,29 +63,31 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  function showResult(card) {
-    spinner.style.display = "block";
-    resultArea.textContent = "";
-    resultArea.style.display = "block";
+ function showResult(card) {
+  spinner.style.display = "block";
+  resultArea.innerText = "";
+  resultArea.style.display = "block";
 
-    fetch("https://enata-tarot-api-v2.onrender.com/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        question: questionInput.value,
-        cards: [card]
-      })
+  fetch("https://enata-tarot-api-v2.onrender.com/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question: questionInput.value,
+      cards: [card]
     })
-      .then(res => res.json())
-      .then(data => {
-        spinner.style.display = "none";
-        const trimmed = data.result.trim().replace(/\s+/g, " ").slice(0, 150);
-        resultArea.textContent = trimmed + (data.result.length > 150 ? "…" : "");
-      })
-      .catch(err => {
-        spinner.style.display = "none";
-        resultArea.textContent = "문제가 생겼어. 다시 해봐!";
-        console.error("🔥 API 오류:", err);
-      });
-  }
+  })
+    .then(res => res.json())
+    .then(data => {
+      spinner.style.display = "none";
+      const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();  // ✅ [조언] 제거
+      const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);       // ✅ 줄임
+      resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");  // ✅ 자연스러운 마무리
+    })
+    .catch(err => {
+      spinner.style.display = "none";
+      resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+      console.error("🔥 API 오류:", err);
+    });
+}
+
 });
