@@ -40,16 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       cardSelected = true;
 
+      // 흐려지기
       cards.forEach((c, i) => {
         if (i !== index) {
           c.classList.add("blurred");
         }
       });
 
+      // 카드 이미지 설정
       const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
       const frontImg = card.querySelector(".card-front img");
       frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
 
+      // 카드 뒤집기 + 리딩 실행
       card.classList.add("glow");
       setTimeout(() => {
         card.classList.add("flip");
@@ -62,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showResult(card) {
     spinner.style.display = "block";
-    resultArea.innerText = "";
+    resultArea.textContent = "";
     resultArea.style.display = "block";
 
     fetch("https://enata-tarot-api-v2.onrender.com/generate", {
@@ -76,16 +79,13 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(res => res.json())
       .then(data => {
         spinner.style.display = "none";
-        resultArea.innerText = truncateTo100(data.result);
+        const trimmed = data.result.trim().replace(/\s+/g, " ").slice(0, 150);
+        resultArea.textContent = trimmed + (data.result.length > 150 ? "…" : "");
       })
       .catch(err => {
         spinner.style.display = "none";
-        resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+        resultArea.textContent = "문제가 생겼어. 다시 해봐!";
         console.error("🔥 API 오류:", err);
       });
-  }
-
-  function truncateTo100(text) {
-    return text.replace(/\s+/g, " ").trim().slice(0, 100);
   }
 });
