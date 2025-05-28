@@ -127,6 +127,7 @@ button:hover,
 
 /* 결과 텍스트 */
 .result {
+  white-space: pre-wrap;  /* ✅ 줄바꿈 유지하며 잘림 방지 */
   padding: 20px;
   font-size: 1rem;
   max-width: 90%;
