@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>개나타 AI 사만</title>
+  <title>에나타 AI 샘</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0d0d0d" />
 </head>
 <body>
-  <h1>에나타 AI 사만</h1>
+  <h1>에나타 AI 샘</h1>
 
   <div class="question-area">
     <input type="text" id="userQuestion" placeholder="이곳에 질문을 작성후 카드 하나를 선택하세요" />
@@ -19,59 +19,67 @@
   <div class="cards" id="cardArea">
     <div class="card" onclick="selectCard(this, 0)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒤면"></div>
+        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
     <div class="card" onclick="selectCard(this, 1)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒤면"></div>
+        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
     <div class="card" onclick="selectCard(this, 2)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒤면"></div>
+        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
   </div>
 
-  <!-- 이용 방법 안내 -->
-  <div id="usageGuide" style="
-    margin-top: 2rem;
-    padding: 1.2rem;
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    max-width: 480px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #f0f0f0;
-    text-align: left;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
-  ">
-    <strong style="font-size: 1.05rem; color: #f9c400;">이용 방법</strong><br><br>
-    1. 질문은 구체적으로 작성해주세요.<br>
-    2. 카드를 하나 선택해주세요.<br>
-    3. 당신을 위한 타로 결과가 나올 것이에요.<br>
-    4. 에나타 AI 사만은 가르게 보는다고 생각하세요.<br>
-    자세한 상당은 에나타 매장 또는 전화 상당으로 도움드릴것이에요.
-  </div>
+<!-- 이용 방법 안내 -->
+<div id="usageGuide" style="
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  max-width: 480px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #f0f0f0;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+">
+  <strong style="font-size: 1.05rem; color: #f9c400;">이용 방법</strong><br><br>
+  1. 질문은 구체적으로 작성해주세요.<br>
+  2. 카드를 하나 선택해주세요.<br>
+  3. 당신을 위한 타로 결과가 나올 거예요.<br>
+  4. 에나타 AI 샘은 가볍게 본다고 생각하세요.<br>
+  자세한 상담은 에나타 매장 또는 전화 상담으로 도와드릴게요.
+</div>
+
 
   <div class="spinner" id="spinner"></div>
   <div class="result" id="resultArea" style="display: none;"></div>
 
-  <!-- 발동시 숨겨진 버튼들 -->
-  <div id="actionButtons" style="display: none; margin-bottom: 40px;">
-    <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상당하기</a>
-    <button onclick="location.reload()"> 질문 다시하기 </button>
-  </div>
+<!-- ✅ 결과 아래 버튼 그룹 -->
+<div class="button-group" id="buttonGroup" style="display: none; margin-top: 1.5rem;">
+  <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">
+    바로 상담하기
+  </a>
+  <button class="consult-button" onclick="location.reload()">질문 다시하기</button>
+</div>
+
+  <!-- ✅ 처음에는 숨겨진 버튼 -->
+  <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank" style="display: none;">
+    바로 상담하기
+  </a>
 
   <script src="script.js"></script>
   <script src="cardList.js"></script>
