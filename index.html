@@ -10,20 +10,157 @@
   <meta name="theme-color" content="#0d0d0d" />
   <style>
     body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background-color: #0d0d0d;
+      color: #fff;
       overflow-x: hidden;
     }
-  </style>
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-top: 2rem;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    .question-area {
+      display: flex;
+      justify-content: center;
+      margin: 1.5rem 0;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .question-area input {
+      padding: 0.8rem;
+      font-size: 1rem;
+      width: 250px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    .question-area button {
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #f9c86a;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .question-area button:hover {
+      background-color: #ffb347;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .question-area button {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+
+      .question-area input {
+        width: 200px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      width: 100px;
+      height: 160px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+
+    .card.flip .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .card-back {
+      background-color: #111;
+    }
+
+    .card-front {
+      transform: rotateY(180deg);
+    }
+
+    .spinner {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .result {
+      text-align: center;
+      margin: 1rem auto;
+      width: 80%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .consult-button {
+      display: block;
+      margin: 2rem auto;
+      padding: 0.8rem 1.2rem;
+      background-color: #f9c86a;
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      width: fit-content;
+    }
+  
+.instruction {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  animation: slideText 15s linear infinite;
+}
+
+@keyframes slideText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+</style>
 </head>
 <body>
-  <div class="starlight-background">
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
   <h1>에나타 AI 샘</h1>
 
   <div class="question-area">
@@ -35,30 +172,48 @@
   <div class="cards" id="cardArea">
     <div class="card" onclick="selectCard(this, 0)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
     <div class="card" onclick="selectCard(this, 1)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
     <div class="card" onclick="selectCard(this, 2)">
       <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-back"><img src="images/tarot_back.png" width="100%" /></div>
         <div class="card-front"><img /></div>
       </div>
     </div>
   </div>
 
-  <div class="spinner" id="spinner"></div>
+  <div class="spinner" id="spinner" style="display:none;">잠시만 기다려줘...</div>
   <div class="result" id="resultArea" style="display: none;"></div>
 
   <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 
   <script>
+    let cardList = [
+      {
+        name: "The Fool",
+        position: "정방향",
+        meaning: "새로운 시작, 순수함, 모험심"
+      },
+      {
+        name: "The Lovers",
+        position: "정방향",
+        meaning: "사랑, 조화, 관계의 조율"
+      },
+      {
+        name: "The Star",
+        position: "정방향",
+        meaning: "희망, 영감, 치유"
+      }
+    ];
+
     let questionConfirmed = false;
 
     document.getElementById('submitQuestion').addEventListener('click', () => {
@@ -79,14 +234,12 @@
 
       if (cardElement.classList.contains('clicked')) return;
 
-      // 78장 중 무작위 카드 선택
-      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-
       const cards = document.querySelectorAll('.card');
       cards.forEach((card, i) => {
         card.classList.add('clicked');
         if (i === index) {
-          const cardName = selectedCard.name.replaceAll(" ", "_") + ".png";
+          const selected = cardList[Math.floor(Math.random() * cardList.length)];
+          const cardName = selected.name.replaceAll(" ", "_") + ".png";
           const frontImg = card.querySelector(".card-front img");
           frontImg.src = "images/universal_tarot_images/" + cardName;
 
@@ -94,7 +247,7 @@
           setTimeout(() => {
             card.classList.add('flip');
             setTimeout(() => {
-              callAPI(selectedCard);
+              callAPI(selected);
             }, 800);
           }, 300);
         } else {
@@ -126,7 +279,7 @@
           })
         });
 
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) throw new Error("HTTP " + response.status);
 
         const data = await response.json();
         spinner.style.display = 'none';
@@ -134,7 +287,7 @@
       } catch (err) {
         spinner.style.display = 'none';
         resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
-        console.error("🔥 API 호출 오류:", err);
+        console.error("🔥 API 오류:", err);
       }
     }
 
@@ -142,8 +295,5 @@
       navigator.serviceWorker.register('sw.js');
     }
   </script>
-
-  <!-- 78장 카드 리스트 연결 -->
-  <script src="cardList.js"></script>
 </body>
 </html>
