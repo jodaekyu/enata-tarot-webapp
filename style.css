@@ -187,9 +187,9 @@ input::placeholder {
 /* 모바일 대응 */
 @media (max-width: 600px) {
   .cards {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    justify-content: center;     /* ← 중앙 정렬 */
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
 
   .card {
@@ -203,6 +203,7 @@ input::placeholder {
 
   .instruction {
     font-size: 0.85rem;
+    margin-bottom: 1rem;         /* ← 설명과 카드 사이 간격 추가 */
   }
 }
 
