@@ -34,7 +34,44 @@ input::placeholder {
 .instruction {
   font-size: 0.9rem;
   color: #ccc;
-  margin: 0.5rem 0 1rem; /* 위아래 간격 추가 */
+  margin: 0.5rem 0 1rem;
+}
+
+/* 질문 입력 + 완료 버튼 영역 */
+.question-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  flex-wrap: wrap;
+}
+
+.question-area input {
+  flex: 1;
+  max-width: 500px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+.question-area button {
+  padding: 0.6rem 1rem;
+  background-color: #f0c674;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.question-area button:hover {
+  background-color: #ffe484;
 }
 
 /* 카드 영역 */
@@ -187,7 +224,7 @@ input::placeholder {
 /* 모바일 대응 */
 @media (max-width: 600px) {
   .cards {
-    justify-content: center;     /* ← 중앙 정렬 */
+    justify-content: center;
     flex-wrap: wrap;
     overflow-x: visible;
   }
@@ -203,7 +240,17 @@ input::placeholder {
 
   .instruction {
     font-size: 0.85rem;
-    margin-bottom: 1rem;         /* ← 설명과 카드 사이 간격 추가 */
+    margin-bottom: 1rem;
+  }
+
+  .question-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .question-area input,
+  .question-area button {
+    width: 100%;
   }
 }
 
