@@ -1,11 +1,20 @@
+// 카드 이름 (임시: 3장만)
 const cardNames = [
   "The Fool", "The Lovers", "The Star"
-]; // 임시 카드명 (선택된 3장만)
+];
 
 // 중복 클릭 방지
 let selected = false;
 
 function selectCard(cardElement, index) {
+  const question = document.getElementById('userQuestion').value.trim();
+
+  // ✅ 질문이 없으면 카드 선택 불가
+  if (!question) {
+    alert("질문을 먼저 작성해주세요!");
+    return;
+  }
+
   if (selected) return;
   selected = true;
 
@@ -19,8 +28,10 @@ function selectCard(cardElement, index) {
       frontImg.src = "images/universal_tarot_images/" + cardName;
 
       card.classList.add('glow');
+
       setTimeout(() => {
         card.classList.add('flip');
+
         setTimeout(() => {
           callAPI(index);
         }, 800);
