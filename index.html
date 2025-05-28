@@ -1,364 +1,96 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>에나타 AI 샘</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet"/>
-<link href="style.css" rel="stylesheet"/>
-<link href="manifest.json" rel="manifest"/>
-<meta content="#0d0d0d" name="theme-color"/>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>에나타 AI 샘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d0d0d" />
+  <style>
     body {
       margin: 0;
       font-family: 'Outfit', sans-serif;
-      background-color: #0d0d0d;
-      color: #fff;
-      overflow-x: hidden;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-
     h1 {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-top: 2rem;
-      text-shadow: 2px 2px 4px #000;
+      margin: 2rem 0 1rem;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px #f0e68c, 0 0 20px #f0e68c;
     }
-
     .question-area {
       display: flex;
-      justify-content: center;
-      margin: 1.5rem 0;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      width: 90%;
+      max-width: 400px;
     }
-
     .question-area input {
-      padding: 0.8rem;
-      font-size: 1rem;
-      width: 250px;
-      border-radius: 8px;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 10px;
       border: none;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
     }
-
     .question-area button {
-      padding: 0.6rem 1rem;
-      font-size: 1rem;
+      background-color: #f5c26b;
+      color: black;
+      font-weight: bold;
       border: none;
-      border-radius: 8px;
-      background-color: #f9c86a;
-      color: #000;
+      padding: 0.8rem 2rem;
+      border-radius: 20px;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      width: 160px;
     }
-
-    .question-area button:hover {
-      background-color: #ffb347;
+    .instruction {
+      margin: 1.5rem 0;
     }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      .question-area button {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.8rem;
-      }
-
-      .question-area input {
-        width: 200px;
-        font-size: 0.9rem;
-      }
-    }
-
     .cards {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin: 2rem 0;
+      margin: 1rem 0 2rem;
     }
-
-    .card {
+    .card img {
       width: 100px;
-      height: 160px;
-      perspective: 1000px;
-      cursor: pointer;
+      border-radius: 10px;
     }
-
-    .card-inner {
-      width: 100%;
-      height: 100%;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
-
-    .card.flip .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-    }
-
-    .card-back {
-      background-color: #111;
-    }
-
-    .card-front {
-      transform: rotateY(180deg);
-    }
-
-    .spinner {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .result {
-      text-align: center;
-      margin: 1rem auto;
-      width: 80%;
-      max-width: 400px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 1rem;
-      border-radius: 8px;
-    }
-
     .consult-button {
-      display: block;
-      margin: 2rem auto;
-      padding: 0.8rem 1.2rem;
-      background-color: #f9c86a;
-      color: #000;
-      text-align: center;
+      background-color: #f5c26b;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 20px;
+      font-size: 1rem;
       text-decoration: none;
-      border-radius: 8px;
-      width: fit-content;
+      margin-bottom: 2rem;
     }
-  
-.instruction {
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  animation: slideText 15s linear infinite;
-}
-
-@keyframes slideText {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-
-  0% { transform: translateX(100%); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateX(-100%); opacity: 0; }
-}
-
-  display: inline-block;
-  white-space: nowrap;
-}
-
-body {
-  background-color: #000;
-  font-family: 'Outfit', serif;
-  color: #fff;
-}
-
-.card.glow {
-  box-shadow: 0 0 30px #c6f, 0 0 60px #9cf;
-}
-
-.question-area {
-  text-align: center;
-  margin: 1em auto;
-}
-
-#userQuestion {
-  width: 80%;
-  max-width: 500px;
-  font-size: 1rem;
-  padding: 0.6em;
-  text-align: center;
-  border-radius: 10px;
-  border: none;
-}
-
-#submitQuestion {
-  display: block;
-  margin: 1em auto;
-  padding: 0.6em 1.5em;
-  background-color: #f9c74f;
-  color: #000;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  width: fit-content;
-}
-
-@media (max-width: 600px) {
-  #userQuestion {
-    width: 90%;
-    font-size: 1rem;
-  }
-
-  #submitQuestion {
-    font-size: 1rem;
-    padding: 0.5em 1.2em;
-    min-width: 150px;
-    width: auto;
-    margin: 0.8em auto;
-  }
-
-  .consult-button {
-    min-width: 150px;
-    width: auto;
-    display: block;
-    margin: 1em auto;
-  }
-}
-</style>
+  </style>
 </head>
 <body>
-<h1 style="font-size: 2.5rem; color: #fff; text-shadow: 0 0 10px #f0c, 0 0 20px #90f, 0 0 30px #f0c;">에나타 AI 샘</h1>
-<div class="question-area">
-<input id="userQuestion" placeholder="여기에 질문을 입력하고 완료 버튼을 누르세요" style="width: 80%; font-size: 1rem; padding: 0.5em;" type="text"/>
-<button id="submitQuestion">완료</button>
-</div>
-<p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
-<div class="cards" id="cardArea">
-<div class="card" onclick="selectCard(this, 0)">
-<div class="card-inner">
-<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
-<div class="card-front"><img/></div>
-</div>
-</div>
-<div class="card" onclick="selectCard(this, 1)">
-<div class="card-inner">
-<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
-<div class="card-front"><img/></div>
-</div>
-</div>
-<div class="card" onclick="selectCard(this, 2)">
-<div class="card-inner">
-<div class="card-back"><img src="images/tarot_back.png" width="100%"/></div>
-<div class="card-front"><img/></div>
-</div>
-</div>
-</div>
-<div class="spinner" id="spinner" style="display:none;">잠시만 기다려줘...</div>
-<div class="result" id="resultArea" style="display: none;"></div>
-<a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&amp;entry=pll" target="_blank">바로 상담하기</a>
-<script>
-    let cardList = [
-      {
-        name: "The Fool",
-        position: "정방향",
-        meaning: "새로운 시작, 순수함, 모험심"
-      },
-      {
-        name: "The Lovers",
-        position: "정방향",
-        meaning: "사랑, 조화, 관계의 조율"
-      },
-      {
-        name: "The Star",
-        position: "정방향",
-        meaning: "희망, 영감, 치유"
-      }
-    ];
-
-    let questionConfirmed = false;
-
-    document.getElementById('submitQuestion').addEventListener('click', () => {
-      const q = document.getElementById('userQuestion').value.trim();
-      if (q) {
-        questionConfirmed = true;
-        alert("질문이 등록되었습니다. 카드를 선택해주세요!");
-      } else {
-        alert("질문을 입력해주세요.");
-      }
-    });
-
-    function selectCard(cardElement, index) {
-      if (!questionConfirmed) {
-        alert("먼저 질문을 입력하고 완료 버튼을 눌러주세요.");
-        return;
-      }
-
-      if (cardElement.classList.contains('clicked')) return;
-
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, i) => {
-        card.classList.add('clicked');
-        if (i === index) {
-          const selected = cardList[Math.floor(Math.random() * cardList.length)];
-          const cardName = selected.name.replaceAll(" ", "_") + ".png";
-          const frontImg = card.querySelector(".card-front img");
-          frontImg.src = "images/universal_tarot_images/" + cardName;
-
-          card.classList.add('glow');
-          setTimeout(() => {
-            card.classList.add('flip');
-            setTimeout(() => {
-              callAPI(selected);
-            }, 800);
-          }, 300);
-        } else {
-          card.classList.add('blurred');
-        }
-      });
-    }
-
-    async function callAPI(selectedCard) {
-      const question = document.getElementById('userQuestion').value;
-      const spinner = document.getElementById('spinner');
-      const resultArea = document.getElementById('resultArea');
-
-      spinner.style.display = 'block';
-      resultArea.style.display = 'block';
-      resultArea.innerText = '';
-
-      try {
-        const response = await fetch('https://enata-tarot-api-v2.onrender.com/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question,
-            cards: [{
-              name: selectedCard.name,
-              position: selectedCard.position,
-              meaning: selectedCard.meaning
-            }]
-          })
-        });
-
-        if (!response.ok) throw new Error("HTTP " + response.status);
-
-        const data = await response.json();
-        spinner.style.display = 'none';
-        resultArea.innerText = data.result;
-      } catch (err) {
-        spinner.style.display = 'none';
-        resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
-        console.error("🔥 API 오류:", err);
-      }
-    }
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
+  <h1>에나타 AI 샘</h1>
+  <div class="question-area">
+    <input type="text" id="userQuestion" placeholder="질문을 입력하고 완료 버튼을 누르세요" />
+    <button id="submitQuestion">완료</button>
+  </div>
+  <p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
+  <div class="cards">
+    <div class="card"><img src="images/tarot_back.png" alt="카드1" /></div>
+    <div class="card"><img src="images/tarot_back.png" alt="카드2" /></div>
+    <div class="card"><img src="images/tarot_back.png" alt="카드3" /></div>
+  </div>
+  <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 </body>
 </html>
