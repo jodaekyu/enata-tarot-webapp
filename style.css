@@ -10,12 +10,12 @@ body {
 }
 
 h1 {
-  font-size: 2.6rem;
+  font-size: 3.2rem; /* 30% 더 크게 */
   text-align: center;
   color: #fff;
   margin-top: 30px;
   margin-bottom: 20px;
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.9); /* 더 강한 후광 효과 */
 }
 
 /* 질문 입력 영역 */
@@ -29,29 +29,31 @@ h1 {
 #userQuestion {
   width: 80%;
   max-width: 400px;
-  padding: 12px 16px;
-  font-size: 1rem;
+  padding: 14px 18px;
+  font-size: 1.1rem;
   border-radius: 8px;
   border: none;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 button,
 .consult-button {
   font-size: 1rem;
-  padding: 10px 20px;
+  padding: 10px 24px;
   border-radius: 8px;
   background-color: #222;
   color: #fff;
   border: 1px solid #fff;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 /* 카드 스타일 */
 .cards {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
@@ -113,18 +115,19 @@ button,
 }
 
 .glow {
-  box-shadow: 0 0 20px 8px #ffd700;
+  box-shadow: 0 0 20px 10px #ffd700;
   transition: box-shadow 0.3s ease;
 }
 
 /* 결과 텍스트 */
 .result {
   padding: 20px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   max-width: 90%;
   margin: 0 auto 30px;
-  white-space: pre-line;
-  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  line-height: 1.8;
 }
 
 .spinner {
