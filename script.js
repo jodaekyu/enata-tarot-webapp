@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
   const usageGuide = document.getElementById("usageGuide");
-  const consultBtn = document.getElementById("consultBtn");
+  const buttonGroup = document.getElementById("buttonGroup");
   let cardSelected = false;
 
   const cardList = [
@@ -88,8 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
         resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
 
-        // 상담 버튼 보이기
-        if (consultBtn) consultBtn.style.display = "inline-block";
+        if (buttonGroup) buttonGroup.style.display = "flex";
       })
       .catch(err => {
         spinner.style.display = "none";
