@@ -59,13 +59,12 @@
 
   <!-- 결과창 및 스피너 -->
   <div class="spinner" id="spinner"></div>
-  <div class="result" id="resultArea"></div>
+  <div class="result" id="resultArea" style="display: none;"></div>
 
   <!-- 상담 버튼 -->
   <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 
-  <!-- JS 파일 및 질문 제출 기능 -->
-  <script src="script.js"></script>
+  <!-- JavaScript -->
   <script>
     let questionConfirmed = false;
 
@@ -116,6 +115,7 @@
       const cardNames = ["The Fool", "The Lovers", "The Star"];
 
       spinner.style.display = 'block';
+      resultArea.style.display = 'block'; // 선택 후에 결과창 보이기
       resultArea.innerText = '';
 
       fetch('https://enata-tarot-api-1.onrender.com/generate', {
@@ -137,7 +137,6 @@
         });
     }
 
-    // PWA 서비스워커 등록
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
