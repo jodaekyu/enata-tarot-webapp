@@ -1,90 +1,98 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>에나타 AI 샘</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0d0d0d" />
-</head>
-<body>
-  <h1>에나타 AI 샘</h1>
+document.addEventListener("DOMContentLoaded", function () {
+  const questionInput = document.getElementById("userQuestion");
+  const cards = document.querySelectorAll(".card");
+  const spinner = document.getElementById("spinner");
+  const resultArea = document.getElementById("resultArea");
+  const usageGuide = document.getElementById("usageGuide");
+  const buttonGroup = document.getElementById("buttonGroup");
+  let cardSelected = false;
 
-  <div class="question-area">
-    <input type="text" id="userQuestion" placeholder="이곳에 질문을 작성후 카드 하나를 선택하세요" />
-  </div>
+  const cardList = [
+    { name: "The Fool", position: "정방향", meaning: "새 출발과 자유" },
+    { name: "The Magician", position: "정방향", meaning: "능력과 기회" },
+    { name: "The High Priestess", position: "정방향", meaning: "직관과 비밀" },
+    { name: "The Empress", position: "정방향", meaning: "풍요와 안정감" },
+    { name: "The Emperor", position: "정방향", meaning: "권위와 책임감" },
+    { name: "The Lovers", position: "정방향", meaning: "사랑과 관계" },
+    { name: "The Chariot", position: "정방향", meaning: "전진과 결단력" },
+    { name: "Strength", position: "정방향", meaning: "인내와 용기" },
+    { name: "The Hermit", position: "정방향", meaning: "고독과 성찰" },
+    { name: "The Wheel of Fortune", position: "정방향", meaning: "운명의 전환" },
+    { name: "Justice", position: "정방향", meaning: "공정함과 판단" },
+    { name: "The Hanged Man", position: "정방향", meaning: "희생과 관점 변화" },
+    { name: "Death", position: "정방향", meaning: "끝과 새로운 시작" },
+    { name: "Temperance", position: "정방향", meaning: "조화와 치유" },
+    { name: "The Devil", position: "정방향", meaning: "유혹과 집착" },
+    { name: "The Tower", position: "정방향", meaning: "예기치 못한 변화" },
+    { name: "The Star", position: "정방향", meaning: "희망과 영감" },
+    { name: "The Moon", position: "정방향", meaning: "혼란과 불확실성" },
+    { name: "The Sun", position: "정방향", meaning: "성공과 기쁨" },
+    { name: "Judgement", position: "정방향", meaning: "깨달음과 재탄생" },
+    { name: "The World", position: "정방향", meaning: "완성과 성취" }
+  ];
 
-  <div class="cards" id="cardArea">
-    <div class="card" onclick="selectCard(this, 0)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-    <div class="card" onclick="selectCard(this, 1)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-    <div class="card" onclick="selectCard(this, 2)">
-      <div class="card-inner">
-        <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
-        <div class="card-front"><img /></div>
-      </div>
-    </div>
-  </div>
+  cards.forEach((card, index) => {
+    card.addEventListener("click", () => {
+      const question = questionInput.value.trim();
+      if (!question) {
+        alert("질문을 먼저 작성해주세요.");
+        return;
+      }
+      if (cardSelected) return;
 
-<!-- 이용 방법 안내 -->
-<div id="usageGuide" style="
-  margin-top: 2rem;
-  padding: 1.2rem;
-  background-color: #1a1a1a;
-  border-radius: 12px;
-  max-width: 480px;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #f0f0f0;
-  text-align: left;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
-">
-  <strong style="font-size: 1.05rem; color: #f9c400;">이용 방법</strong><br><br>
-  1. 질문은 구체적으로 작성해주세요.<br>
-  2. 카드를 하나 선택해주세요.<br>
-  3. 당신을 위한 타로 결과가 나올 거예요.<br>
-  4. 에나타 AI 샘은 가볍게 본다고 생각하세요.<br>
-  자세한 상담은 에나타 매장 또는 전화 상담으로 도와드릴게요.
-</div>
+      cardSelected = true;
 
-
-  <div class="spinner" id="spinner"></div>
-  <div class="result" id="resultArea" style="display: none;"></div>
-
-  <!-- ✅ 처음에는 숨겨진 버튼 -->
-  <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank" style="display: none;">
-    바로 상담하기
-  </a>
-
-  <script src="script.js"></script>
-  <script src="cardList.js"></script>
-
-  <!-- ✅ Service Worker 등록 -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => console.log("✅ Service Worker 등록됨"))
-          .catch(err => console.error("❌ 등록 실패:", err));
+      // 다른 카드 흐리게 처리
+      cards.forEach((c, i) => {
+        if (i !== index) {
+          c.classList.add("blurred");
+        }
       });
-    }
-  </script>
-</body>
-</html>
+
+      // 카드 이미지 설정
+      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+      const frontImg = card.querySelector(".card-front img");
+      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
+
+      // 카드 뒤집기 + 리딩 실행
+      card.classList.add("glow");
+      setTimeout(() => {
+        card.classList.add("flip");
+        setTimeout(() => {
+          showResult(selectedCard);
+        }, 800);
+      }, 300);
+    });
+  });
+
+  function showResult(card) {
+    spinner.style.display = "block";
+    resultArea.innerText = "";
+    resultArea.style.display = "block";
+
+    if (usageGuide) usageGuide.style.display = "none";
+
+    fetch("https://enata-tarot-api-v2.onrender.com/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: questionInput.value,
+        cards: [card]
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        spinner.style.display = "none";
+        const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
+        const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
+        resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
+
+        if (buttonGroup) buttonGroup.style.display = "flex";
+      })
+      .catch(err => {
+        spinner.style.display = "none";
+        resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+        console.error("🔥 API 오류:", err);
+      });
+  }
+});
