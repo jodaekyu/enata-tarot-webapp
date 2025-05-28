@@ -54,23 +54,17 @@
 
   <!-- 결과창 및 스피너 -->
   <div class="spinner" id="spinner"></div>
-  <div class="result" id="resultArea"></div>
+  <div class="result" id="resultArea" style="display: none;"></div>
 
   <!-- 상담 버튼 -->
   <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 
   <!-- JavaScript -->
   <script>
-    // 카드 이름 (임시: 3장만)
-    const cardNames = [
-      "The Fool", "The Lovers", "The Star"
-    ];
-
-    // 상태 변수
+    const cardNames = ["The Fool", "The Lovers", "The Star"];
     let selected = false;
     let selectionEnabled = false;
 
-    // ✅ "완료" 버튼 클릭 시 실행
     function enableSelection() {
       const question = document.getElementById('userQuestion').value.trim();
       if (!question) {
@@ -81,7 +75,6 @@
       alert("이제 카드를 선택할 수 있습니다.");
     }
 
-    // ✅ 카드 선택
     function selectCard(cardElement, index) {
       const question = document.getElementById('userQuestion').value.trim();
       if (!selectionEnabled) {
@@ -116,7 +109,6 @@
       });
     }
 
-    // ✅ AI 응답 처리
     function callAPI(index) {
       const question = document.getElementById('userQuestion').value;
       const spinner = document.getElementById('spinner');
@@ -124,6 +116,7 @@
 
       spinner.style.display = 'block';
       resultArea.innerText = '';
+      resultArea.style.display = 'block'; // ✅ 카드 선택 후 결과창 표시
 
       fetch('https://enata-tarot-api-1.onrender.com/generate', {
         method: 'POST',
@@ -144,7 +137,6 @@
       });
     }
 
-    // ✅ PWA 등록
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
