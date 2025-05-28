@@ -7,24 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d0d0d" />
   <style>
     body {
       overflow-x: hidden;
-    }
-    input {
-      width: 100%;
-      max-width: 500px;
-      box-sizing: border-box;
-    }
-    .instruction {
-      text-align: center;
-    }
-    @media (max-width: 600px) {
-      input {
-        font-size: 1rem;
-        padding: 0.8rem;
-        width: 90%;
-      }
     }
   </style>
 </head>
@@ -42,9 +28,14 @@
 
   <h1>에나타 AI 샘</h1>
 
-  <input type="text" id="userQuestion" placeholder="질문을 입력하세요 (예: 썸 타는 사람과 잘 될까요?)" />
+  <!-- 질문 입력 + 완료 버튼 -->
+  <div class="question-area">
+    <input type="text" id="userQuestion" placeholder="질문을 입력하고 완료 버튼을 누르세요" />
+    <button id="submitQuestion">완료</button>
+  </div>
   <p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
 
+  <!-- 카드 영역 -->
   <div class="cards" id="cardArea">
     <div class="card" onclick="selectCard(this, 0)">
       <div class="card-inner">
@@ -66,13 +57,87 @@
     </div>
   </div>
 
+  <!-- 결과창 및 스피너 -->
   <div class="spinner" id="spinner"></div>
   <div class="result" id="resultArea"></div>
 
+  <!-- 상담 버튼 -->
   <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 
+  <!-- JS 파일 및 질문 제출 기능 -->
   <script src="script.js"></script>
   <script>
+    let questionConfirmed = false;
+
+    document.getElementById('submitQuestion').addEventListener('click', () => {
+      const q = document.getElementById('userQuestion').value.trim();
+      if (q) {
+        questionConfirmed = true;
+        alert("질문이 등록되었습니다. 카드를 선택해주세요!");
+      } else {
+        alert("질문을 입력해주세요.");
+      }
+    });
+
+    function selectCard(cardElement, index) {
+      if (!questionConfirmed) {
+        alert("먼저 질문을 입력하고 완료 버튼을 눌러주세요.");
+        return;
+      }
+
+      if (cardElement.classList.contains('clicked')) return;
+
+      const cardNames = ["The Fool", "The Lovers", "The Star"];
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, i) => {
+        card.classList.add('clicked');
+        if (i === index) {
+          const cardName = cardNames[index].replaceAll(" ", "_") + ".png";
+          const frontImg = card.querySelector(".card-front img");
+          frontImg.src = "images/universal_tarot_images/" + cardName;
+
+          card.classList.add('glow');
+          setTimeout(() => {
+            card.classList.add('flip');
+            setTimeout(() => {
+              callAPI(index);
+            }, 800);
+          }, 300);
+        } else {
+          card.classList.add('blurred');
+        }
+      });
+    }
+
+    function callAPI(index) {
+      const question = document.getElementById('userQuestion').value;
+      const spinner = document.getElementById('spinner');
+      const resultArea = document.getElementById('resultArea');
+      const cardNames = ["The Fool", "The Lovers", "The Star"];
+
+      spinner.style.display = 'block';
+      resultArea.innerText = '';
+
+      fetch('https://enata-tarot-api-1.onrender.com/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          cards: [cardNames[index]]
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          spinner.style.display = 'none';
+          resultArea.innerText = data.result;
+        })
+        .catch(err => {
+          spinner.style.display = 'none';
+          resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
+        });
+    }
+
+    // PWA 서비스워커 등록
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
