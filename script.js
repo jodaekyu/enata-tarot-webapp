@@ -1,83 +1,153 @@
-// 카드 이름 (임시: 3장만)
-const cardNames = [
-  "The Fool", "The Lovers", "The Star"
-];
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>에나타 AI 샘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d0d0d" />
+</head>
+<body>
+  <!-- 별빛 배경 -->
+  <div class="starlight-background">
+    <!-- 30개 별 -->
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
 
-// 중복 클릭 방지
-let selected = false;
+  <h1>에나타 AI 샘</h1>
 
-// 완료 버튼 누름 여부
-let selectionEnabled = false;
+  <!-- 질문 입력 + 완료 버튼 -->
+  <div class="question-area">
+    <input type="text" id="userQuestion" placeholder="질문을 입력하고 완료 버튼을 누르세요" />
+    <button onclick="enableSelection()">완료</button>
+  </div>
+  <p class="instruction">질문 작성 후 한 장의 카드를 고르세요.</p>
 
-// ✅ "완료" 버튼 클릭 시 실행
-function enableSelection() {
-  const question = document.getElementById('userQuestion').value.trim();
-  if (!question) {
-    alert("질문을 먼저 입력해주세요.");
-    return;
-  }
-  selectionEnabled = true;
-  alert("이제 카드를 선택할 수 있습니다.");
-}
+  <!-- 카드 영역 -->
+  <div class="cards" id="cardArea">
+    <div class="card" onclick="selectCard(this, 0)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+    <div class="card" onclick="selectCard(this, 1)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+    <div class="card" onclick="selectCard(this, 2)">
+      <div class="card-inner">
+        <div class="card-back"><img src="images/tarot_back.png" /></div>
+        <div class="card-front"><img /></div>
+      </div>
+    </div>
+  </div>
 
-// ✅ 카드 선택 함수
-function selectCard(cardElement, index) {
-  const question = document.getElementById('userQuestion').value.trim();
+  <!-- 결과창 및 스피너 -->
+  <div class="spinner" id="spinner"></div>
+  <div class="result" id="resultArea"></div>
 
-  // ✅ 완료 버튼을 누르지 않았으면 카드 선택 불가
-  if (!selectionEnabled) {
-    alert("먼저 질문을 입력하고 '완료' 버튼을 눌러주세요.");
-    return;
-  }
+  <!-- 상담 버튼 -->
+  <a class="consult-button" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">바로 상담하기</a>
 
-  if (!question) {
-    alert("질문을 먼저 작성해주세요!");
-    return;
-  }
+  <!-- JavaScript -->
+  <script>
+    // 카드 이름 (임시: 3장만)
+    const cardNames = [
+      "The Fool", "The Lovers", "The Star"
+    ];
 
-  if (selected) return;
-  selected = true;
+    // 상태 변수
+    let selected = false;
+    let selectionEnabled = false;
 
-  const cards = document.querySelectorAll('.card');
-  cards.forEach((card, i) => {
-    card.classList.add('clicked');
-    if (i === index) {
-      // 카드 앞면 이미지 설정
-      const cardName = cardNames[index].replaceAll(" ", "_") + ".png";
-      const frontImg = card.querySelector(".card-front img");
-      frontImg.src = "images/universal_tarot_images/" + cardName;
-
-      card.classList.add('glow');
-
-      setTimeout(() => {
-        card.classList.add('flip');
-
-        setTimeout(() => {
-          callAPI(index);
-        }, 800);
-      }, 300);
-    } else {
-      // 선택되지 않은 카드 흐림 처리
-      card.classList.add('blurred');
+    // ✅ "완료" 버튼 클릭 시 실행
+    function enableSelection() {
+      const question = document.getElementById('userQuestion').value.trim();
+      if (!question) {
+        alert("질문을 먼저 입력해주세요.");
+        return;
+      }
+      selectionEnabled = true;
+      alert("이제 카드를 선택할 수 있습니다.");
     }
-  });
-}
 
-// ✅ AI 응답 처리 함수
-function callAPI(index) {
-  const question = document.getElementById('userQuestion').value;
-  const spinner = document.getElementById('spinner');
-  const resultArea = document.getElementById('resultArea');
+    // ✅ 카드 선택
+    function selectCard(cardElement, index) {
+      const question = document.getElementById('userQuestion').value.trim();
+      if (!selectionEnabled) {
+        alert("먼저 질문을 입력하고 '완료' 버튼을 눌러주세요.");
+        return;
+      }
+      if (!question) {
+        alert("질문을 먼저 작성해주세요!");
+        return;
+      }
+      if (selected) return;
+      selected = true;
 
-  spinner.style.display = 'block';
-  resultArea.innerText = '';
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, i) => {
+        card.classList.add('clicked');
+        if (i === index) {
+          const cardName = cardNames[index].replaceAll(" ", "_") + ".png";
+          const frontImg = card.querySelector(".card-front img");
+          frontImg.src = "images/universal_tarot_images/" + cardName;
 
-  fetch('https://enata-tarot-api-1.onrender.com/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      question,
-      cards: [cardNames[index]]
-    })
-  })
-    .then(res => res.json())
+          card.classList.add('glow');
+          setTimeout(() => {
+            card.classList.add('flip');
+            setTimeout(() => {
+              callAPI(index);
+            }, 800);
+          }, 300);
+        } else {
+          card.classList.add('blurred');
+        }
+      });
+    }
+
+    // ✅ AI 응답 처리
+    function callAPI(index) {
+      const question = document.getElementById('userQuestion').value;
+      const spinner = document.getElementById('spinner');
+      const resultArea = document.getElementById('resultArea');
+
+      spinner.style.display = 'block';
+      resultArea.innerText = '';
+
+      fetch('https://enata-tarot-api-1.onrender.com/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          cards: [cardNames[index]]
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        spinner.style.display = 'none';
+        resultArea.innerText = data.result;
+      })
+      .catch(err => {
+        spinner.style.display = 'none';
+        resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
+      });
+    }
+
+    // ✅ PWA 등록
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
