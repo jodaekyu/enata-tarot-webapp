@@ -118,39 +118,45 @@
       });
     }
 
-    async function callAPI(index) {
-      const question = document.getElementById('userQuestion').value;
-      const spinner = document.getElementById('spinner');
-      const resultArea = document.getElementById('resultArea');
+   async function callAPI(index) {
+  const question = document.getElementById('userQuestion').value;
+  const spinner = document.getElementById('spinner');
+  const resultArea = document.getElementById('resultArea');
 
-      spinner.style.display = 'block';
-      resultArea.style.display = 'block';
-      resultArea.innerText = '';
+  spinner.style.display = 'block';
+  resultArea.style.display = 'block';
+  resultArea.innerText = '';
 
-      const selectedCard = cardList[index];
+  const selectedCard = cardList[index];
 
-      try {
-        const response = await fetch('https://enata-tarot-api-v2.onrender.com/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            question,
-            cards: [{
-              name: selectedCard.name,
-              position: selectedCard.position,
-              meaning: selectedCard.meaning
-            }]
-          })
-        });
+  try {
+    const response = await fetch('https://enata-tarot-api-v2.onrender.com/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question,
+        cards: [{
+          name: selectedCard.name,
+          position: selectedCard.position,
+          meaning: selectedCard.meaning
+        }]
+      })
+    });
 
-        const data = await response.json();
-        spinner.style.display = 'none';
-        resultArea.innerText = data.result;
-      } catch (err) {
-        spinner.style.display = 'none';
-        resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
-      }
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
+
+    const data = await response.json();
+    spinner.style.display = 'none';
+    resultArea.innerText = data.result;
+  } catch (err) {
+    spinner.style.display = 'none';
+    resultArea.innerText = "문제가 발생했어요. 다시 시도해 주세요.";
+    console.error("🔥 API 호출 오류:", err);  // 👈 콘솔에 오류 출력 추가
+  }
+}
+
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
