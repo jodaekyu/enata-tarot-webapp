@@ -94,20 +94,18 @@ button:hover,
 /* 카드 스타일 */
 .cards {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: space-between;   /* ✅ 카드 간격을 고르게 분산 */
+  gap: 0;                            /* ✅ 불필요한 간격 제거 */
+  padding: 0 5vw;                    /* ✅ 양쪽 여유 확보 */
   margin-bottom: 25px;
-  flex-wrap: nowrap;       /* ✅ 줄바꿈 금지 */
-  overflow-x: auto;        /* ✅ 넘칠 경우 가로 스크롤 */
-  -webkit-overflow-scrolling: touch; /* ✅ 터치 스크롤 부드럽게 */
+  flex-wrap: nowrap;                /* ✅ 줄바꿈 금지 */
 }
 
 .card {
-  flex: 0 0 auto;
-  width: 24vw;             /* ✅ 더 작게 설정 */
-  max-width: 90px;
+  flex: 0 0 calc((100% - 10vw) / 3);  /* ✅ 카드 3장이 100% 안에 정확히 들어오게 계산 */
+  aspect-ratio: 2 / 3;
+  max-width: 105px;                   /* ✅ 너무 커지는 걸 방지 */
   height: auto;
-  aspect-ratio: 2/3;
   perspective: 1000px;
   cursor: pointer;
 }
