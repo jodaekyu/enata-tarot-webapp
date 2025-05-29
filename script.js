@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // 카드 이미지 설정
       const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
       const frontImg = card.querySelector(".card-front img");
-      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
+      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
 
       // 카드 뒤집기 + 리딩 실행
       card.classList.add("glow");
