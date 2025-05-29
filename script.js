@@ -1,4 +1,5 @@
 console.log("✅ script.js 불러와짐");
+
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
@@ -50,20 +51,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-     // 카드 이미지 설정
-const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-const frontImg = card.querySelector(".card-front img");
+      // 카드 이미지 설정
+      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+      const frontImg = card.querySelector(".card-front img");
 
-console.log("✅ 선택된 카드:", selectedCard.name);
-console.log("✅ frontImg 확인:", frontImg);
-console.log("✅ 최종 이미지 경로:", `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`);
+      console.log("✅ 선택된 카드:", selectedCard.name);
+      console.log("✅ frontImg 확인:", frontImg);
+      console.log(
+        "✅ 최종 이미지 경로:",
+        `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`
+      );
 
-frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
+      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
 
       // 카드 뒤집기 + 리딩 실행
       card.classList.add("glow");
+      const cardInner = card.querySelector(".card-inner");
       setTimeout(() => {
-        card.classList.add("flip");
+        cardInner.classList.add("flip");
         setTimeout(() => {
           showResult(selectedCard);
         }, 800);
@@ -76,7 +81,6 @@ frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" "
     resultArea.innerText = "";
     resultArea.style.display = "block";
 
-    // 이용 방법 숨기기
     if (usageGuide) usageGuide.style.display = "none";
 
     fetch("https://enata-tarot-api-v2.onrender.com/generate", {
