@@ -117,7 +117,7 @@ button:hover,
   transition: transform 0.8s;
 }
 
-.card.flip .card-inner {
+.card-inner.flip {
   transform: rotateY(180deg);
 }
 
