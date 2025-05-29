@@ -58,6 +58,13 @@ button:hover,
   background-color: #ffdb4d;
 }
 
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
 /* 카드 스타일 */
 .cards {
   display: flex;
