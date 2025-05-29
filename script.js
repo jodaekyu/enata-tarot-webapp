@@ -32,25 +32,25 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   cards.forEach((card, index) => {
-    card.addEventListener("click", () => {
-      const question = questionInput.value.trim();
-      if (!question) {
-        alert("질문을 먼저 작성해주세요.");
-        return;
+  card.addEventListener("click", () => {
+    const question = questionInput.value.trim();
+    if (!question) {
+      alert("질문을 먼저 작성해주세요.");
+      return;
+    }
+    if (cardSelected) return;
+
+    cardSelected = true;
+
+    // 다른 카드 흐리게 처리
+    cards.forEach((c, i) => {
+      if (i !== index) {
+        c.classList.add("blurred");
       }
-      if (cardSelected) return;
+    });
 
-      cardSelected = true;
-
-      // 다른 카드 흐리게 처리
-      cards.forEach((c, i) => {
-        if (i !== index) {
-          c.classList.add("blurred");
-        }
-      });
-
-      // 카드 이미지 설정
-       const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+    // ✅ 카드 이미지 설정
+    const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
     const frontImg = card.querySelector(".card-front img");
 
     if (!frontImg) {
@@ -58,20 +58,21 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    const imagePath = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
-    console.log("✅ 이미지 경로:", imagePath);
+    frontImg.src = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
+    frontImg.alt = selectedCard.name;
+    console.log("✅ 이미지 경로 확인:", frontImg.src);
 
-    frontImg.src = imagePath;
-      // 카드 뒤집기 + 리딩 실행
-      card.classList.add("glow");
+    // 카드 뒤집기 + 리딩 실행
+    card.classList.add("glow");
+    setTimeout(() => {
+      card.classList.add("flip");
       setTimeout(() => {
-        card.classList.add("flip");
-        setTimeout(() => {
-          showResult(selectedCard);
-        }, 800);
-      }, 300);
-    });
+        showResult(selectedCard);
+      }, 800);
+    }, 300);
   });
+});
+
 
   function showResult(card) {
     spinner.style.display = "block";
