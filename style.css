@@ -147,7 +147,7 @@ button:hover,
   justify-content: center;
   align-items: center;
   position: relative;   /* ✅ 추가 */
-  z-index: 10;          /* ✅ 추가 */
+  z-index: 10;  /* ✅ 이 줄 반드시 필요 */
 }
 
 .card img {
@@ -178,6 +178,8 @@ button:hover,
   overflow-wrap: break-word;
   word-break: keep-all;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;  /* ✅ 카드보다 아래로 내려줌 */
 }
 
 /* 로딩 스피너 */
