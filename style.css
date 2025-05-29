@@ -117,7 +117,7 @@ button:hover,
   transition: transform 0.8s;
 }
 
-.card.flip .card-inner {
+.card-inner.flip {
   transform: rotateY(180deg);
 }
 
@@ -137,7 +137,7 @@ button:hover,
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;   /* ✅ 추가 */
+  position: relative;
 }
 
 .card-front {
@@ -146,8 +146,8 @@ button:hover,
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;   /* ✅ 추가 */
-  z-index: 10;  /* ✅ 이 줄 반드시 필요 */
+  position: relative;
+  z-index: 10;
 }
 
 .card img {
@@ -179,7 +179,7 @@ button:hover,
   word-break: keep-all;
   box-sizing: border-box;
   position: relative;
-  z-index: 1;  /* ✅ 카드보다 아래로 내려줌 */
+  z-index: 1;
 }
 
 /* 로딩 스피너 */
