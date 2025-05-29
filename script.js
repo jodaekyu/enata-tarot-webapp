@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(res => res.json())
       .then(data => {
         spinner.style.display = "none";
-        const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
+        const cleaned = data?.result?.replace(/^\[조언\]\s*/, "").trim();
         const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
         resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
       })
