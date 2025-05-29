@@ -77,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then(res => res.json())
       .then(data => {
+console.log("✅ AI 응답 결과:", data);  // 이 줄 추가
         spinner.style.display = "none";
         const cleaned = data?.result?.replace(/^\[조언\]\s*/, "").trim();
         const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
