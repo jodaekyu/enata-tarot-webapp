@@ -1,14 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
-
-cards.forEach((card, index) => {
-  card.addEventListener("click", () => {
-    console.log(`카드 ${index} 클릭됨`);
-    // 여기서 카드 로직 실행
-  });
-});
-
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
   const usageGuide = document.getElementById("usageGuide");
@@ -40,47 +32,38 @@ cards.forEach((card, index) => {
   ];
 
   cards.forEach((card, index) => {
-  card.addEventListener("click", () => {
-    const question = questionInput.value.trim();
-    if (!question) {
-      alert("질문을 먼저 작성해주세요.");
-      return;
-    }
-    if (cardSelected) return;
-
-    cardSelected = true;
-
-    // 다른 카드 흐리게 처리
-    cards.forEach((c, i) => {
-      if (i !== index) {
-        c.classList.add("blurred");
+    card.addEventListener("click", () => {
+      const question = questionInput.value.trim();
+      if (!question) {
+        alert("질문을 먼저 작성해주세요.");
+        return;
       }
-    });
+      if (cardSelected) return;
 
-    // ✅ 카드 이미지 설정
-    const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-    const frontImg = card.querySelector(".card-front img");
+      cardSelected = true;
 
-    if (!frontImg) {
-      console.error("❌ frontImg가 null입니다. HTML 구조를 확인하세요.");
-      return;
-    }
+      // 다른 카드 흐리게 처리
+      cards.forEach((c, i) => {
+        if (i !== index) {
+          c.classList.add("blurred");
+        }
+      });
 
-    frontImg.src = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
-    frontImg.alt = selectedCard.name;
-    console.log("✅ 이미지 경로 확인:", frontImg.src);
+      // 카드 이미지 설정
+      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+      const frontImg = card.querySelector(".card-front img");
+      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
 
-    // 카드 뒤집기 + 리딩 실행
-    card.classList.add("glow");
-    setTimeout(() => {
-      card.classList.add("flip");
+      // 카드 뒤집기 + 리딩 실행
+      card.classList.add("glow");
       setTimeout(() => {
-        showResult(selectedCard);
-      }, 800);
-    }, 300);
+        card.classList.add("flip");
+        setTimeout(() => {
+          showResult(selectedCard);
+        }, 800);
+      }, 300);
+    });
   });
-});
-
 
   function showResult(card) {
     spinner.style.display = "block";
@@ -107,7 +90,6 @@ cards.forEach((card, index) => {
 
         if (buttonGroup) {
           buttonGroup.style.display = "flex";
-          // ✅ 자동 스크롤
           buttonGroup.scrollIntoView({ behavior: "smooth" });
         }
       })
