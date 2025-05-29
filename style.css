@@ -139,16 +139,16 @@ button:hover,
 /* 이용 방법 안내 영역 */
 .guide-area {
   display: block;
-  margin: 2rem auto;
+  margin: 0.5rem auto;     /* 기존 1rem → 0.5rem (위·아래 여백 줄이기) */
   max-width: 600px;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: left;
 }
 
 .guide-title {
   color: #fff;
   font-size: 1.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;   /* 기존 1rem → 0.5rem (제목 아래 간격 축소) */
   text-align: left;
 }
 
