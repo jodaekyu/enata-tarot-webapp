@@ -137,6 +137,7 @@ button:hover,
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;   /* ✅ 추가 */
 }
 
 .card-front {
@@ -145,6 +146,8 @@ button:hover,
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;   /* ✅ 추가 */
+  z-index: 10;          /* ✅ 추가 */
 }
 
 .card img {
