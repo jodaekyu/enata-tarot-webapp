@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
@@ -29,7 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
     { name: "The World", position: "정방향", meaning: "완성과 성취" }
   ];
 
+  const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
+
   cards.forEach((card, index) => {
+    const frontImg = card.querySelector(".card-front img");
+    frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
+
     card.addEventListener("click", () => {
       const question = questionInput.value.trim();
       if (!question) {
@@ -40,54 +46,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
       cardSelected = true;
 
-      // 흐려지기
       cards.forEach((c, i) => {
-        if (i !== index) {
-          c.classList.add("blurred");
-        }
+        if (i !== index) c.classList.add("blurred");
       });
 
-      // 카드 이미지 설정
-      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-      const frontImg = card.querySelector(".card-front img");
-      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
-
-      // 카드 뒤집기 + 리딩 실행
       card.classList.add("glow");
       setTimeout(() => {
         card.classList.add("flip");
         setTimeout(() => {
-          showResult(selectedCard);
+          showResult(randomThreeCards[index]);
         }, 800);
       }, 300);
     });
   });
 
- function showResult(card) {
-  spinner.style.display = "block";
-  resultArea.innerText = "";
-  resultArea.style.display = "block";
+  function showResult(card) {
+    spinner.style.display = "block";
+    resultArea.innerText = "";
+    resultArea.style.display = "block";
 
-  fetch("https://enata-tarot-api-v2.onrender.com/generate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question: questionInput.value,
-      cards: [card]
+    fetch("https://enata-tarot-api-v2.onrender.com/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        question: questionInput.value,
+        cards: [card]
+      })
     })
-  })
-    .then(res => res.json())
-    .then(data => {
-      spinner.style.display = "none";
-      const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();  // ✅ [조언] 제거
-      const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);       // ✅ 줄임
-      resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");  // ✅ 자연스러운 마무리
-    })
-    .catch(err => {
-      spinner.style.display = "none";
-      resultArea.innerText = "문제가 생겼어. 다시 해봐!";
-      console.error("🔥 API 오류:", err);
-    });
-}
-
+      .then(res => res.json())
+      .then(data => {
+        spinner.style.display = "none";
+        const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
+        const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
+        resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
+      })
+      .catch(err => {
+        spinner.style.display = "none";
+        resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+        console.error("🔥 API 오류:", err);
+      });
+  }
 });
