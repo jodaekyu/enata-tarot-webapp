@@ -1,4 +1,4 @@
-const cardList = [
+window.cardList = [
   { name: "The Fool", korean_name: "바보", position: "정방향", summary: "연애에 미숙하고 책임감 부족. 깊은 관계로 발전하기 어려우며, 재회 가능성도 낮음." },
   { name: "The Magician", korean_name: "마법사", position: "정방향", summary: "자신감 있고 능력 있는 사람. 끌림은 강하지만 관계는 불안정할 수 있음." },
   { name: "The High Priestess", korean_name: "여교황", position: "정방향", summary: "감정을 드러내지 않으며 신중한 태도. 관계 진전엔 시간이 걸림." },
