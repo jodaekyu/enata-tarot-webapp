@@ -51,6 +51,10 @@ button,
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
+  text-decoration: none;     /* ✅ 밑줄 제거 */
+  display: inline-block;     /* ✅ <a> 태그와 <button>의 레이아웃 통일 */
+  box-sizing: border-box;    /* ✅ 크기 계산 방식 통일 */
+  text-align: center;
 }
 
 button:hover,
