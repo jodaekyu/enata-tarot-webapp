@@ -1,3 +1,4 @@
+console.log("✅ script.js 불러와짐");
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
