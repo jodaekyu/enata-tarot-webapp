@@ -61,26 +61,26 @@
     <textarea id="userQuestion" rows="2" placeholder="이곳에 질문을 작성후 카드 하나를 선택하세요"></textarea>
   </div>
 
-  <div class="cards" id="cardArea">
-   <div class="card" data-index="0"></div>
-  <div class="card-inner">
-    <div class="card-back"><img src="images/tarot_back.png" alt="뒷면" /></div>
-    <div class="card-front"><img src="" alt="앞면" /></div>
+<div class="cards" id="cardArea">
+  <div class="card" onclick="selectCard(this, 0)">
+    <div class="card-inner">
+      <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
+      <div class="card-front"><img /></div>
+    </div>
+  </div>
+  <div class="card" onclick="selectCard(this, 1)">
+    <div class="card-inner">
+      <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
+      <div class="card-front"><img /></div>
+    </div>
+  </div>
+  <div class="card" onclick="selectCard(this, 2)">
+    <div class="card-inner">
+      <div class="card-back"><img src="images/tarot_back.png" alt="뒷면"></div>
+      <div class="card-front"><img /></div>
+    </div>
   </div>
 </div>
-    <div class="card" data-index="1"></div>
-       <div class="card-inner">
-    <div class="card-back"><img src="images/tarot_back.png" alt="뒷면" /></div>
-    <div class="card-front"><img src="" alt="앞면" /></div>
-  </div>
-</div>
-    <div class="card" data-index="2"></div>
-       <div class="card-inner">
-    <div class="card-back"><img src="images/tarot_back.png" alt="뒷면" /></div>
-    <div class="card-front"><img src="" alt="앞면" /></div>
-  </div>
-</div>
-  </div>
 
   <!-- 이용 방법 안내 -->
   <div id="usageGuide" style="
