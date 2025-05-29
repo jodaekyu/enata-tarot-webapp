@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
+
+cards.forEach((card, index) => {
+  card.addEventListener("click", () => {
+    console.log(`카드 ${index} 클릭됨`);
+    // 여기서 카드 로직 실행
+  });
+});
+
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
   const usageGuide = document.getElementById("usageGuide");
