@@ -38,13 +38,17 @@ h1 {
   background-color: #111;
   color: #fff;
   resize: none;
-  line-height: 1.8;
+  line-height: 1.6;                 /* ✅ 줄 간격 조절 */
   box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
   box-sizing: border-box;
   height: 4.2em;
+
+  padding-top: 18px;               /* ✅ 상단 패딩 추가 */
+  padding-bottom: 18px;            /* ✅ 하단 패딩 추가 */
   overflow: hidden;
   scrollbar-width: none;
 }
+
 #userQuestion::-webkit-scrollbar {
   display: none;
 }
