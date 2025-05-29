@@ -56,10 +56,7 @@ const frontImg = card.querySelector(".card-front img");
 
 console.log("✅ 선택된 카드:", selectedCard.name);
 console.log("✅ frontImg 확인:", frontImg);
-console.log(
-  "✅ 최종 이미지 경로:",
-  `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`
-);
+console.log("✅ 최종 이미지 경로:", `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`);
 
 frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
 
