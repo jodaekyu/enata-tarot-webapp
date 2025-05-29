@@ -93,15 +93,15 @@ button:hover,
   justify-content: center;
   gap: 10px;
   margin-bottom: 25px;
-  flex-wrap: nowrap;
-  overflow-x: hidden;
-  max-width: 100%;
+  flex-wrap: nowrap;       /* ✅ 줄바꿈 금지 */
+  overflow-x: auto;        /* ✅ 넘칠 경우 가로 스크롤 */
+  -webkit-overflow-scrolling: touch; /* ✅ 터치 스크롤 부드럽게 */
 }
 
 .card {
   flex: 0 0 auto;
-  width: 25vw;           /* ✅ 크기 조정 */
-  max-width: 90px;       /* ✅ 최대 크기 제한 */
+  width: 24vw;             /* ✅ 더 작게 설정 */
+  max-width: 90px;
   height: auto;
   aspect-ratio: 2/3;
   perspective: 1000px;
