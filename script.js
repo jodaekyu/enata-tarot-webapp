@@ -88,7 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
         resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
 
-        if (buttonGroup) buttonGroup.style.display = "flex";
+        if (buttonGroup) {
+          buttonGroup.style.display = "flex";
+          // ✅ 자동 스크롤
+          buttonGroup.scrollIntoView({ behavior: "smooth" });
+        }
       })
       .catch(err => {
         spinner.style.display = "none";
