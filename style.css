@@ -13,10 +13,10 @@ body {
 h1 {
   font-size: 3rem;
   text-align: center;
-  color: #fff;
+  color: #fff;  /* ✅ 완전 흰색 */
   margin-top: 30px;
   margin-bottom: 20px;
-  text-shadow: 0 0 18px rgba(255, 255, 100, 1);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);  /* ✅ 흰색만 살짝 강조 */
 }
 
 /* 질문 입력 영역 */
@@ -42,11 +42,11 @@ h1 {
   box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
   box-sizing: border-box;
   height: 4.2em;
-  overflow: hidden;           /* ✅ 스크롤 제거 */
-  scrollbar-width: none;      /* ✅ Firefox 대응 */
+  overflow: hidden;
+  scrollbar-width: none;
 }
 #userQuestion::-webkit-scrollbar {
-  display: none;              /* ✅ Chrome, Safari 대응 */
+  display: none;
 }
 
 /* 버튼 */
@@ -91,16 +91,17 @@ button:hover,
 .cards {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 25px;
-  flex-wrap: nowrap;       /* ✅ 한 줄 유지 */
-  overflow-x: auto;        /* ✅ 모바일 가로 스크롤 허용 */
+  flex-wrap: nowrap;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 .card {
-  flex: 0 0 auto;          /* ✅ 줄바꿈 방지 */
-  width: 30vw;
-  max-width: 120px;
+  flex: 0 0 auto;
+  width: 25vw;           /* ✅ 크기 조정 */
+  max-width: 90px;       /* ✅ 최대 크기 제한 */
   height: auto;
   aspect-ratio: 2/3;
   perspective: 1000px;
@@ -204,11 +205,11 @@ button:hover,
   }
 
   .card {
-    width: 28vw;
-    max-width: 100px;
+    width: 25vw;
+    max-width: 90px;
   }
 
   .cards {
-    gap: 8px;
+    gap: 6px;
   }
 }
