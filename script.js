@@ -50,10 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       // 카드 이미지 설정
-      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-      const frontImg = card.querySelector(".card-front img");
-      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
+       const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
+    const frontImg = card.querySelector(".card-front img");
 
+    if (!frontImg) {
+      console.error("❌ frontImg가 null입니다. HTML 구조를 확인하세요.");
+      return;
+    }
+
+    const imagePath = `images/universal_tarot_images/${selectedCard.name.replace(/ /g, "_")}.png`;
+    console.log("✅ 이미지 경로:", imagePath);
+
+    frontImg.src = imagePath;
       // 카드 뒤집기 + 리딩 실행
       card.classList.add("glow");
       setTimeout(() => {
