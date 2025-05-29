@@ -204,12 +204,19 @@ button:hover,
     height: 4.2em;
   }
 
-  .card {
-    width: 25vw;
-    max-width: 90px;
+  .cards {
+    display: flex;
+    flex-wrap: nowrap;               /* ✅ 줄바꿈 방지 */
+    overflow-x: auto;                /* ✅ 넘칠 경우 가로 스크롤 허용 */
+    gap: 6px;
+    justify-content: flex-start;     /* ✅ 카드들을 왼쪽부터 배치 */
+    -webkit-overflow-scrolling: touch; /* ✅ iOS 가속 스크롤 */
   }
 
-  .cards {
-    gap: 6px;
+  .card {
+    flex: 0 0 auto;                  /* ✅ 줄바꿈 안 되게 강제 */
+    width: 24vw;                     /* ✅ 화면 기준 작게 조정 */
+    max-width: 90px;
   }
 }
+
