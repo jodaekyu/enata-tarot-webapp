@@ -13,10 +13,10 @@ body {
 h1 {
   font-size: 3rem;
   text-align: center;
-  color: #fff;  /* ✅ 완전 흰색 */
+  color: #fff;
   margin-top: 30px;
   margin-bottom: 20px;
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);  /* ✅ 흰색만 살짝 강조 */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
 /* 질문 입력 영역 */
@@ -30,7 +30,7 @@ h1 {
 #userQuestion {
   width: 100%;
   max-width: 500px;
-  padding: 16px 20px;
+  padding: 18px 20px;
   font-size: 1.3rem;
   border-radius: 12px;
   border: 2px solid #ffc107;
@@ -38,13 +38,10 @@ h1 {
   background-color: #111;
   color: #fff;
   resize: none;
-  line-height: 1.6;                 /* ✅ 줄 간격 조절 */
+  line-height: 1.6;
   box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
   box-sizing: border-box;
   height: 4.2em;
-
-  padding-top: 18px;               /* ✅ 상단 패딩 추가 */
-  padding-bottom: 18px;            /* ✅ 하단 패딩 추가 */
   overflow: hidden;
   scrollbar-width: none;
 }
@@ -96,137 +93,21 @@ button:hover,
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
-  margin: 20px auto;
-  max-width: 100%;
-  padding: 0;
+  padding: 0 5vw;
+  margin-bottom: 25px;
   gap: 0;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .card {
-  flex: 0 0 calc(33.333% - 10px); /* ✅ 카드 3장이 정확히 한 줄 */
-  max-width: 95px;               /* ✅ 너무 클 경우 제한 */
-  aspect-ratio: 2 / 3;            /* ✅ 비율 유지 */
+  flex: 0 0 calc((100% - 10vw) / 3);
+  max-width: 105px;
+  aspect-ratio: 2 / 3;
   height: auto;
   perspective: 1000px;
   cursor: pointer;
 }
-
 
 .card-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s;
-}
-
-.card.flip .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.card-back {
-  background-color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-front {
-  transform: rotateY(180deg);
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.blurred {
-  opacity: 0.3;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.glow {
-  box-shadow: 0 0 20px 10px #ffd700;
-  transition: box-shadow 0.3s ease;
-}
-
-/* 결과 텍스트 */
-.result {
-  white-space: pre-wrap;
-  padding: 24px;
-  font-size: 1.3rem;
-  max-width: 100%;
-  margin: 0 auto 30px;
-  line-height: 1.9;
-  overflow-wrap: break-word;
-  word-break: keep-all;
-  box-sizing: border-box;
-}
-
-/* 로딩 스피너 */
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 5px solid #fff;
-  border-top: 5px solid transparent;
-  border-radius: 50%;
-  margin: 20px auto;
-  animation: spin 1s linear infinite;
-  display: none;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* 반응형 */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 2.4rem;
-  }
-
-  #userQuestion {
-    width: 100%;
-    font-size: 1.1rem;
-    height: 4.2em;
-  }
-
-  .cards {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 6px;
-    justify-content: center;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .card {
-  flex: 0 0 auto;
-  width: 95px;           /* ✅ 고정값 적용 */
-  max-width: 95px;
-  height: auto;
-  aspect-ratio: 2/3;
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-}
-
-
+  width: 10
