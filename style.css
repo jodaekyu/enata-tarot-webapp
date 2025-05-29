@@ -214,10 +214,15 @@ button:hover,
   }
 
   .card {
-    flex: 0 0 auto;
-    width: 95px;           /* ✅ 105보다 작은 고정 크기 */
-    max-width: 95px;
-  }
+  flex: 0 0 auto;
+  width: 95px;           /* ✅ 고정값 적용 */
+  max-width: 95px;
+  height: auto;
+  aspect-ratio: 2/3;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
 }
 
 
