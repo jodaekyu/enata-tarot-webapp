@@ -1,9 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
+  const guideArea = document.getElementById("guideArea"); // ✅ 추가
   let cardSelected = false;
 
   const cardList = [
@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (cardSelected) return;
 
       cardSelected = true;
+
+      if (guideArea) guideArea.style.display = "none"; // ✅ 이용방법 안내 숨기기
 
       cards.forEach((c, i) => {
         if (i !== index) c.classList.add("blurred");
