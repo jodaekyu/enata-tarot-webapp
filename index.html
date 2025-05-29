@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="style.css">
 
   <!-- ✅ [추가] PWA manifest 연결 -->
-  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0d0d0d" />
 
   <style>
@@ -52,14 +51,5 @@
   <script src="cardList.js"></script>
 
   <!-- ✅ [추가] Service Worker 등록 -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => console.log("✅ Service Worker 등록됨"))
-          .catch(err => console.error("❌ 등록 실패:", err));
-      });
-    }
-  </script>
 </body>
 </html>
