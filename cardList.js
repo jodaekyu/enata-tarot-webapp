@@ -79,3 +79,4 @@ window.cardList = [
   { name: "King of Pentacles", korean_name: "펜타클 왕", position: "정방향", summary: "펜타클 왕 카드입니다. 상황에 따라 다양한 해석이 필요해요." },
 ];
 
+window.cardList = [...];  // ✅ 브라우저 호환
