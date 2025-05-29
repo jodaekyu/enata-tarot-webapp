@@ -3,12 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>에나타 AI 선생님</title>
+  <title>에나타 AI 샘</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap; /* 줄바꿈 허용 */
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      width: 30vw;
+      max-width: 120px;
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .question-area textarea {
+      width: 90%;
+      max-width: 480px;
+      margin: 0 auto;
+      display: block;
+      padding: 12px;
+      font-size: 1rem;
+      border: 2px solid #f9c400;
+      border-radius: 10px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-top: 2rem;
+      color: #fff700;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background: #000;
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <h1>에나타 AI 선생님</h1>
+  <h1>에나타 AI 샘</h1>
 
   <div class="question-area">
     <textarea id="userQuestion" rows="2" placeholder="이곳에 질문을 작성후 카드 하나를 선택하세요"></textarea>
@@ -35,8 +82,26 @@
     </div>
   </div>
 
-  <div id="usageGuide">
-    <strong>이용 방법</strong><br>
+  <!-- 이용 방법 안내 -->
+  <div id="usageGuide" style="
+    margin-top: 2rem;
+    padding: 1.2rem;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    max-width: 480px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #f0f0f0;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  ">
+    <strong style="font-size: 1.05rem; color: #f9c400; display: block; margin-bottom: 8px;">이용 방법</strong>
     1. 질문은 구체적으로 작성해주세요.<br>
     2. 카드를 하나 선택해주세요.<br>
     3. 당신을 위한 타로 결과가 나올 거예요.<br>
@@ -47,49 +112,20 @@
   <div class="spinner" id="spinner"></div>
   <div class="result" id="resultArea" style="display: none;"></div>
 
+  <!-- ✅ 결과 아래 버튼 그룹 -->
   <div class="button-group" id="buttonGroup" style="display: none;">
     <button class="consult-button" onclick="location.reload()">질문 다시하기</button>
-    <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">상담 예약하기</a>
+    <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank">
+      상담 예약하기
+    </a>
   </div>
 
-  <script>
-    const cardList = [
-      { name: "The_Fool", korean_name: "바보" },
-      { name: "The_Magician", korean_name: "마법사" },
-      { name: "The_High_Priestess", korean_name: "여사제" }
-    ];
+  <!-- ✅ 처음에는 숨겨진 버튼 -->
+  <a class="consult-button" id="consultBtn" href="https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll" target="_blank" style="display: none;">
+    바로 상담하기
+  </a>
 
-    async function selectCard(cardElement, index) {
-      const cardFrontImg = cardElement.querySelector(".card-front img");
-      const selectedCard = cardList[index];
-      cardFrontImg.src = `images/${selectedCard.name}.png`;
-      cardElement.classList.add("flip");
-
-      document.querySelectorAll(".card").forEach((card, i) => {
-        if (i !== index) card.classList.add("blurred");
-      });
-
-      const question = document.getElementById("userQuestion").value;
-      const spinner = document.getElementById("spinner");
-      const resultArea = document.getElementById("resultArea");
-      const buttonGroup = document.getElementById("buttonGroup");
-
-      spinner.style.display = "block";
-      resultArea.style.display = "none";
-      buttonGroup.style.display = "none";
-
-      // 모의 응답 생성
-      const result = await generateMockAdvice(selectedCard.korean_name, question);
-
-      spinner.style.display = "none";
-      resultArea.innerText = result;
-      resultArea.style.display = "block";
-      buttonGroup.style.display = "flex";
-    }
-
-    async function generateMockAdvice(cardName, question) {
-      return `${cardName} 카드를 선택했군요. '${question}'에 대해 조언을 드릴게요. 긍정적인 자세로 임하세요!`;
-    }
-  </script>
+  <script src="script.js"></script>
+  <script src="cardList.js"></script>
 </body>
 </html>
