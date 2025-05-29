@@ -104,7 +104,7 @@ button:hover,
 
 .card {
   flex: 0 0 calc(33.333% - 10px); /* ✅ 카드 3장이 정확히 한 줄 */
-  max-width: 105px;               /* ✅ 너무 클 경우 제한 */
+  max-width: 95px;               /* ✅ 너무 클 경우 제한 */
   aspect-ratio: 2 / 3;            /* ✅ 비율 유지 */
   height: auto;
   perspective: 1000px;
