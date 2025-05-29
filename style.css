@@ -206,17 +206,18 @@ button:hover,
 
   .cards {
     display: flex;
-    flex-wrap: nowrap;               /* ✅ 줄바꿈 방지 */
-    overflow-x: auto;                /* ✅ 넘칠 경우 가로 스크롤 허용 */
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 6px;
-    justify-content: flex-start;     /* ✅ 카드들을 왼쪽부터 배치 */
-    -webkit-overflow-scrolling: touch; /* ✅ iOS 가속 스크롤 */
+    justify-content: center;
+    -webkit-overflow-scrolling: touch;
   }
 
   .card {
-    flex: 0 0 auto;                  /* ✅ 줄바꿈 안 되게 강제 */
-    width: 24vw;                     /* ✅ 화면 기준 작게 조정 */
-    max-width: 90px;
+    flex: 0 0 auto;
+    width: 95px;           /* ✅ 105보다 작은 고정 크기 */
+    max-width: 95px;
   }
 }
+
 
