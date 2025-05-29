@@ -42,7 +42,6 @@ h1 {
   box-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
   box-sizing: border-box;
   height: 4.2em;
-
   overflow: hidden;           /* ✅ 스크롤 제거 */
   scrollbar-width: none;      /* ✅ Firefox 대응 */
 }
@@ -94,12 +93,16 @@ button:hover,
   justify-content: center;
   gap: 12px;
   margin-bottom: 25px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;       /* ✅ 한 줄 유지 */
+  overflow-x: auto;        /* ✅ 모바일 가로 스크롤 허용 */
 }
 
 .card {
-  width: 115px;
-  height: 180px;
+  flex: 0 0 auto;          /* ✅ 줄바꿈 방지 */
+  width: 30vw;
+  max-width: 120px;
+  height: auto;
+  aspect-ratio: 2/3;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -198,3 +201,14 @@ button:hover,
     width: 100%;
     font-size: 1.1rem;
     height: 4.2em;
+  }
+
+  .card {
+    width: 28vw;
+    max-width: 100px;
+  }
+
+  .cards {
+    gap: 8px;
+  }
+}
