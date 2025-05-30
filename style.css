@@ -135,6 +135,13 @@ button:hover,
 }
 
 /* 이용 방법 안내 영역 */
+.guide-area {
+  display: block;
+  margin: 0.5rem auto;
+  max-width: 600px;
+  padding: 1rem;
+  text-align: left;
+}
 
 .result:empty {
   display: none;
