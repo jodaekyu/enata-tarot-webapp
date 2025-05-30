@@ -135,7 +135,7 @@ button:hover,
 }
 
 #resultArea {
-  width: 80%;
+ width: 80%;
   max-width: 500px;
   margin: 1.5rem auto;
   padding: 1.2rem 1rem;
@@ -148,7 +148,9 @@ button:hover,
   line-height: 1.6;
   white-space: pre-line;
   overflow-wrap: break-word;
-  display: none;
+  display: none; /* JS에서 show 시에 block */
+  overflow: visible;         /* ✅ 수정 핵심 */
+  max-height: none;          /* ✅ 제한 제거 */
 }
 
 
