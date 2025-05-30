@@ -1,10 +1,9 @@
-
 document.addEventListener("DOMContentLoaded", function () {
   const questionInput = document.getElementById("userQuestion");
   const cards = document.querySelectorAll(".card");
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
-  const guideArea = document.getElementById("guideArea");
+  const guideArea = document.getElementById("guideArea"); // ✅ 추가
   let cardSelected = false;
 
   const cardList = [
@@ -44,9 +43,10 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
       if (cardSelected) return;
+
       cardSelected = true;
 
-      if (guideArea) guideArea.style.display = "none";
+      if (guideArea) guideArea.style.display = "none"; // ✅ 이용방법 안내 숨기기
 
       cards.forEach((c, i) => {
         if (i !== index) c.classList.add("blurred");
@@ -77,9 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then(res => res.json())
       .then(data => {
-        console.log("✅ AI 응답 결과:", data);
         spinner.style.display = "none";
-        const cleaned = data?.result?.replace(/^\[조언\]\s*/, "").trim();
+        const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
         const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);
         resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");
       })
