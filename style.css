@@ -157,6 +157,7 @@ button:hover,
 }
 
 .guide-text {
+  padding-left: 0.8rem;
   color: #eee;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -165,7 +166,7 @@ button:hover,
 }
 
 .guide-box {
-  padding: 1.2rem 1.2rem;     /* ✅ 전체 안쪽 여백 */
+  padding: 1.2rem 1rem;     /* ✅ 전체 안쪽 여백 */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid #444;
   border-radius: 12px;
