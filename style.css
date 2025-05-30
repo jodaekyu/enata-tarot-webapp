@@ -134,6 +134,24 @@ button:hover,
   transition: all 0.3s ease;
 }
 
+#resultArea {
+  width: 80%;
+  max-width: 500px;
+  margin: 1.5rem auto;
+  padding: 1.2rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  color: #eee;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  display: none;
+}
+
+
 /* 이용 방법 안내 영역 */
 .guide-area {
   display: flex;
