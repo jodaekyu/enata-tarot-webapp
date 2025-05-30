@@ -1,6 +1,4 @@
-const cardNames = [
-  "The Fool", "The Lovers", "The Star"
-]; // 임시 카드명 (선택된 3장만)
+const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
 // 중복 클릭 방지
 let selected = false;
