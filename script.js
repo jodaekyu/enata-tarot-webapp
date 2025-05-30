@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const cards = document.querySelectorAll(".card");
   const spinner = document.getElementById("spinner");
   const resultArea = document.getElementById("resultArea");
-  const guideArea = document.getElementById("guideArea"); // ✅ 추가
+  const guideArea = document.getElementById("guideArea");
   let cardSelected = false;
 
   const cardList = [
@@ -32,35 +32,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
+  // 카드 이미지 미리 설정
   cards.forEach((card, index) => {
     const frontImg = card.querySelector(".card-front img");
     frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
-
-    card.addEventListener("click", () => {
-      const question = questionInput.value.trim();
-      if (!question) {
-        alert("질문을 먼저 작성해주세요.");
-        return;
-      }
-      if (cardSelected) return;
-
-      cardSelected = true;
-
-      if (guideArea) guideArea.style.display = "none"; // ✅ 이용방법 안내 숨기기
-
-      cards.forEach((c, i) => {
-        if (i !== index) c.classList.add("blurred");
-      });
-
-      card.classList.add("glow");
-      setTimeout(() => {
-        card.classList.add("flip");
-        setTimeout(() => {
-          showResult(randomThreeCards[index]);
-        }, 800);
-      }, 300);
-    });
   });
+
+  // ✅ 전역에서 호출 가능한 selectCard 함수 정의
+  window.selectCard = function (cardElement, index) {
+    const question = questionInput.value.trim();
+    if (!question) {
+      alert("질문을 먼저 작성해주세요.");
+      return;
+    }
+    if (cardSelected) return;
+
+    cardSelected = true;
+    if (guideArea) guideArea.style.display = "none";
+
+    cards.forEach((c, i) => {
+      if (i !== index) c.classList.add("blurred");
+    });
+
+    cardElement.classList.add("glow");
+    setTimeout(() => {
+      cardElement.classList.add("flip");
+      setTimeout(() => {
+        showResult(randomThreeCards[index]);
+      }, 800);
+    }, 300);
+  };
 
   function showResult(card) {
     spinner.style.display = "block";
