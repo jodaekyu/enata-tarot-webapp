@@ -186,7 +186,7 @@ button:hover,
   width: 80%;
   max-width: 500px;
   margin: 0 auto; /* 가운데 정렬 */
-  padding: 1.2rem 1rem;     /* ✅ 전체 안쪽 여백 */
+  padding: 1rem 1rem;     /* ✅ 전체 안쪽 여백 */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid #444;
   border-radius: 12px;
