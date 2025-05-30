@@ -173,12 +173,13 @@ button:hover,
   text-align: left;
 }
 
-.guide-text {
+.guide-text p {
   padding-left: 0.8rem;
   color: #eee;
   font-size: 0.95rem;
   line-height: 1.6;
-  margin-bottom: 0;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
   text-align: left;
 }
 
