@@ -139,7 +139,7 @@ button:hover,
   display: block;
   margin: 0.5rem auto;
   max-width: 600px;
-  padding: 1rem;
+  padding: 0rem;
   text-align: left;
 }
 
