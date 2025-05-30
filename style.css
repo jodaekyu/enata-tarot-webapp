@@ -135,7 +135,7 @@ button:hover,
 }
 
 #resultArea {
-  width: 80%;
+    width: 80%;
   max-width: 500px;
   margin: 1.5rem auto;
   padding: 1.2rem 1rem;
@@ -146,14 +146,11 @@ button:hover,
   color: #eee;
   font-size: 0.95rem;
   line-height: 1.6;
-
-  /* ✅ 핵심 속성 */
   white-space: pre-line;
   word-break: break-word;
   overflow: visible;
   max-height: none;
-
-  display: none;  /* JS에서 답변 있을 때 block으로 변경됨 */
+  display: none;
 }
 
 
