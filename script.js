@@ -82,7 +82,7 @@ function showResult(card) {
     .then(data => {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
-resultArea.innerText = cleaned;
+ resultArea.innerText = cleaned;  // ✅ 잘리지 않고 전체 응답 표시
     })
     .catch(err => {
       spinner.style.display = "none";
