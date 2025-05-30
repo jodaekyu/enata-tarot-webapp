@@ -82,8 +82,7 @@ function showResult(card) {
     .then(data => {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
-      const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 500);
-      resultArea.innerText = trimmed + (cleaned.length > 500 ? "…" : "");
+resultArea.innerText = cleaned;
     })
     .catch(err => {
       spinner.style.display = "none";
