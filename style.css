@@ -136,11 +136,14 @@ button:hover,
 
 /* 이용 방법 안내 영역 */
 .guide-area {
-  display: block;
+  display: flex;
+  justify-content: center;
   margin: 0.5rem auto;
-  max-width: 600px;
-  padding: 0rem;
-  text-align: left;
+  max-width: 100%;
+  padding: 0;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .result:empty {
