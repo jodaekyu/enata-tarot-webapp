@@ -942,8 +942,8 @@ const cardList = [
     "arcana": "Minor",
     "position": "역방향",
     "meaning": "물질과 현실 - 권위적 태도"
-}
-]; // ✅ 배열 끝은 세미콜론(;)으로 마무리
+  }
+]
 
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
@@ -951,14 +951,7 @@ const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 
 document.addEventListener("DOMContentLoaded", function () {
   cards.forEach((card, index) => {
     const frontImg = card.querySelector(".card-front img");
-
-    // 카드 이름에 따라 이미지 경로 설정
     frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
-
-    // ✅ 여기가 중요! 역방향이면 클래스를 붙여줍니다.
-    if (randomThreeCards[index].position === "역방향") {
-      frontImg.classList.add("reversed");
-    }
   });
 });
 
