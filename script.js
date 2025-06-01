@@ -942,8 +942,8 @@ const cardList = [
     "arcana": "Minor",
     "position": "역방향",
     "meaning": "물질과 현실 - 권위적 태도"
-  }
-];
+}
+]; // ✅ 배열 끝은 세미콜론(;)으로 마무리
 
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
