@@ -134,6 +134,11 @@ button:hover,
   transition: all 0.3s ease;
 }
 
+/* 역방향 카드 이미지 회전 */
+.card-front img.reversed {
+  transform: rotate(180deg);
+}
+
 #resultArea {
     width: 80%;
   max-width: 500px;
