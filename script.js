@@ -951,7 +951,14 @@ const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 
 document.addEventListener("DOMContentLoaded", function () {
   cards.forEach((card, index) => {
     const frontImg = card.querySelector(".card-front img");
+
+    // 카드 이름에 따라 이미지 경로 설정
     frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
+
+    // ✅ 여기가 중요! 역방향이면 클래스를 붙여줍니다.
+    if (randomThreeCards[index].position === "역방향") {
+      frontImg.classList.add("reversed");
+    }
   });
 });
 
