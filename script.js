@@ -943,7 +943,7 @@ const cardList = [
     "position": "역방향",
     "meaning": "물질과 현실 - 권위적 태도"
   }
-]
+];
 
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
