@@ -83,9 +83,9 @@ document.getElementById("retryBtn").addEventListener("click", () => {
   location.reload();
 });
 
-document.getElementById("consultBtn").addEventListener("click", async () => {
-  const today = new Date();
-  let targetDate = today;
+document.getElementById("consultBtn").addEventListener("click", () => {
+  window.location.href = "https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll&lang=ko&area=pll";
+});
 
   // 22:30 이후면 다음 날 예약을 보여주도록 설정
   if (today.getHours() >= 22 && today.getMinutes() >= 30) {
