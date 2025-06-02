@@ -937,15 +937,13 @@ const cardList = [
     "position": "정방향",
     "meaning": "물질과 현실 - 통제와 리더십"
   },
- {
-    name: "King of Pentacles",
-    arcana: "Minor",
-    position: "역방향",
-    meaning: "물질과 현실 - 권위적 태도"
+  {
+    "name": "King of Pentacles",
+    "arcana": "Minor",
+    "position": "역방향",
+    "meaning": "물질과 현실 - 권위적 태도"
   }
-]; // 끝에 세미콜론은 여기만 있어야 함
-
-const cardList = window.fullCardList; // cardList.js에서 정의됨
+]
 
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
@@ -953,52 +951,36 @@ const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 
 document.addEventListener("DOMContentLoaded", function () {
   cards.forEach((card, index) => {
     const frontImg = card.querySelector(".card-front img");
-    const cardData = randomThreeCards[index];
-    frontImg.src = `images/universal_tarot_images/${cardData.name.replaceAll(" ", "_")}.png`;
-
-    if (cardData.position === "역방향") {
-      frontImg.classList.add("reversed");
-    }
+    frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
   });
 });
 
-// 카드 선택 처리
+// ✅ 전역 정의된 selectCard 함수
 function selectCard(cardElement, index) {
-  const questionInput = document.getElementById("userQuestion");
-  const guideArea = document.getElementById("guideArea");
-
   const question = questionInput.value.trim();
   if (!question) {
     alert("질문을 먼저 작성해주세요.");
     return;
   }
+  if (cardSelected) return;
 
-  if (window.cardSelected) return; // 중복 선택 방지
-  window.cardSelected = true;
-
+  cardSelected = true;
   if (guideArea) guideArea.style.display = "none";
 
-  // 나머지 카드 흐리게 처리
-  const cards = document.querySelectorAll(".card");
   cards.forEach((c, i) => {
     if (i !== index) c.classList.add("blurred");
   });
 
-  // 선택한 카드에 glow → flip 효과
   cardElement.classList.add("glow");
-
   setTimeout(() => {
     cardElement.classList.add("flip");
-
-    // 카드 완전히 뒤집힌 후 결과 출력
     setTimeout(() => {
-      showResult(randomThreeCards[index], question);
+      showResult(randomThreeCards[index]);
     }, 800);
   }, 300);
 }
 
-
-// 결과 API 호출 및 표시
+// ✅ 그대로 유지: 결과 보여주기
 function showResult(card) {
   spinner.style.display = "block";
   resultArea.innerText = "";
@@ -1016,7 +998,7 @@ function showResult(card) {
     .then(data => {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
-      resultArea.innerText = cleaned;
+ resultArea.innerText = cleaned;  // ✅ 잘리지 않고 전체 응답 표시
     })
     .catch(err => {
       spinner.style.display = "none";
