@@ -83,10 +83,6 @@ document.getElementById("retryBtn").addEventListener("click", () => {
   location.reload();
 });
 
-document.getElementById("consultBtn").addEventListener("click", () => {
-  alert("상담 예약 기능은 곧 제공될 예정입니다!");
-});
-
 document.getElementById("consultBtn").addEventListener("click", async () => {
   const today = new Date();
   let targetDate = today;
