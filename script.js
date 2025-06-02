@@ -1,244 +1,73 @@
-/* 기본 배경 및 타이틀 설정 */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Outfit', sans-serif;
-  background-color: #000;
-  color: #fff;
-  text-align: center;
-  overflow-x: hidden;
-}
-
-h1 {
-  font-size: 2.8rem;
-  text-align: center;
-  color: #fff;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  text-shadow: 0 0 18px rgba(255, 255, 100, 1);
-}
-
-/* 질문 입력 영역 */
-.question-area {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-#userQuestion {
-  width: 80%;
-  max-width: 500px;
-  padding: 14px 18px;
-  font-size: 1.05rem;
-  border-radius: 10px;
-  border: none;
-  margin-bottom: 15px;
-}
-
-/* 버튼 */
-button,
-.consult-button {
-  font-size: 1rem;
-  padding: 10px 24px;
-  border-radius: 12px;
-  background-color: #ffc107;
-  color: #000;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
-}
-
-button:hover,
-.consult-button:hover {
-  background-color: #ffdb4d;
-}
-
-/* 카드 스타일 */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
-}
-
-.card {
-  width: 100px;
-  height: 160px;
-  perspective: 1000px;
-  cursor: pointer;
-}
-
-.card-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s;
-}
-
-.card.flip .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.card-back {
-  background-color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card-front {
-  transform: rotateY(180deg);
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.blurred {
-  opacity: 0.3;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.glow {
-  box-shadow: 0 0 20px 10px #ffd700;
-  transition: box-shadow 0.3s ease;
-}
-
-/* 공통 반투명 박스 스타일 (AI 결과 + 안내 박스 공용) */
-.result-style {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #444;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-#resultArea {
-    width: 80%;
-  max-width: 500px;
-  margin: 1.5rem auto;
-  padding: 1.2rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #444;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  color: #eee;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  white-space: pre-line;
-  word-break: break-word;
-  overflow: visible;
-  max-height: none;
-  display: none;
-}
-
-
-
-/* 이용 방법 안내 영역 */
-.guide-area {
-  display: flex;
-  justify-content: center;
-  margin: 0.3rem auto;
-  padding: 0;
-}
-
-.result:empty {
-  display: none;
-  margin: 0;
-  min-height: 0;
-}
-
-.guide-title {
-  color: #fff;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-.guide-text p {
-  padding-left: 0.8rem;
-  color: #eee;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
-  text-align: left;
-}
-
-.guide-box {
-  width: 80%;
-  max-width: 500px;
-  margin: 0 auto; /* 가운데 정렬 */
-  padding: 1rem 1rem;     /* ✅ 전체 안쪽 여백 */
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #444;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-/* 로딩 스피너 */
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 5px solid #fff;
-  border-top: 5px solid transparent;
-  border-radius: 50%;
-  margin: 20px auto;
-  animation: spin 1s linear infinite;
-  display: none;
-}
-
 import cardList from './cardList.js';
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+const questionInput = document.getElementById("userQuestion");
+const cards = document.querySelectorAll(".card");
+const spinner = document.getElementById("spinner");
+const resultArea = document.getElementById("resultArea");
+const guideArea = document.getElementById("guideArea");
+let cardSelected = false;
+
+const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
+
+// 카드 이미지 삽입
+document.addEventListener("DOMContentLoaded", function () {
+  cards.forEach((card, index) => {
+    const frontImg = card.querySelector(".card-front img");
+    frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
+  });
+});
+
+// 카드 선택 처리 함수
+function selectCard(cardElement, index) {
+  const question = questionInput.value.trim();
+  if (!question) {
+    alert("질문을 먼저 작성해주세요.");
+    return;
+  }
+  if (cardSelected) return;
+
+  cardSelected = true;
+  if (guideArea) guideArea.style.display = "none";
+
+  cards.forEach((c, i) => {
+    if (i !== index) c.classList.add("blurred");
+  });
+
+  cardElement.classList.add("glow");
+  setTimeout(() => {
+    cardElement.classList.add("flip");
+    setTimeout(() => {
+      showResult(randomThreeCards[index]);
+    }, 800);
+  }, 300);
 }
 
-/* 반응형 */
-@media (max-width: 480px) {
-  h1 {
-    font-size: 2.2rem;
-  }
+// AI 응답 결과 출력 함수
+function showResult(card) {
+  spinner.style.display = "block";
+  resultArea.innerText = "";
+  resultArea.style.display = "block";
 
-  #userQuestion {
-    width: 90%;
-    font-size: 0.95rem;
-  }
-
-  .cards {
-    gap: 10px;
-  }
-
-  .card {
-    width: 90px;
-    height: 145px;
-  }
-
-  .result {
-    font-size: 0.95rem;
-    padding: 1.2rem;
-  }
+  fetch("https://enata-tarot-api-v2.onrender.com/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question: questionInput.value,
+      cards: [card]
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      spinner.style.display = "none";
+      const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
+      resultArea.innerText = cleaned;
+    })
+    .catch(err => {
+      spinner.style.display = "none";
+      resultArea.innerText = "문제가 생겼어. 다시 해봐!";
+      console.error("🔥 API 오류:", err);
+    });
 }
+
+// HTML onclick에서 사용할 수 있도록 전역에 등록
+window.selectCard = selectCard;
