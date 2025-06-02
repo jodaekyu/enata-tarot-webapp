@@ -5,6 +5,7 @@ const cards = document.querySelectorAll(".card");
 const spinner = document.getElementById("spinner");
 const resultArea = document.getElementById("resultArea");
 const guideArea = document.getElementById("guideArea");
+const actionButtons = document.getElementById("actionButtons");
 let cardSelected = false;
 
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
@@ -61,6 +62,11 @@ function showResult(card) {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
       resultArea.innerText = cleaned;
+
+      // ✅ 버튼 표시
+      if (actionButtons) {
+        actionButtons.style.display = "flex";
+      }
     })
     .catch(err => {
       spinner.style.display = "none";
@@ -71,3 +77,12 @@ function showResult(card) {
 
 // HTML onclick에서 사용할 수 있도록 전역에 등록
 window.selectCard = selectCard;
+
+// ✅ 버튼 기능 연결
+document.getElementById("retryBtn").addEventListener("click", () => {
+  location.reload();
+});
+
+document.getElementById("consultBtn").addEventListener("click", () => {
+  alert("상담 예약 기능은 곧 제공될 예정입니다!");
+});
