@@ -1,93 +1,180 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const questionInput = document.getElementById("userQuestion");
-  const cards = document.querySelectorAll(".card");
-  const spinner = document.getElementById("spinner");
-  const resultArea = document.getElementById("resultArea");
-  let cardSelected = false;
-
-  const cardList = [
-    { name: "The Fool", position: "정방향", meaning: "새 출발과 자유" },
-    { name: "The Magician", position: "정방향", meaning: "능력과 기회" },
-    { name: "The High Priestess", position: "정방향", meaning: "직관과 비밀" },
-    { name: "The Empress", position: "정방향", meaning: "풍요와 안정감" },
-    { name: "The Emperor", position: "정방향", meaning: "권위와 책임감" },
-    { name: "The Lovers", position: "정방향", meaning: "사랑과 관계" },
-    { name: "The Chariot", position: "정방향", meaning: "전진과 결단력" },
-    { name: "Strength", position: "정방향", meaning: "인내와 용기" },
-    { name: "The Hermit", position: "정방향", meaning: "고독과 성찰" },
-    { name: "The Wheel of Fortune", position: "정방향", meaning: "운명의 전환" },
-    { name: "Justice", position: "정방향", meaning: "공정함과 판단" },
-    { name: "The Hanged Man", position: "정방향", meaning: "희생과 관점 변화" },
-    { name: "Death", position: "정방향", meaning: "끝과 새로운 시작" },
-    { name: "Temperance", position: "정방향", meaning: "조화와 치유" },
-    { name: "The Devil", position: "정방향", meaning: "유혹과 집착" },
-    { name: "The Tower", position: "정방향", meaning: "예기치 못한 변화" },
-    { name: "The Star", position: "정방향", meaning: "희망과 영감" },
-    { name: "The Moon", position: "정방향", meaning: "혼란과 불확실성" },
-    { name: "The Sun", position: "정방향", meaning: "성공과 기쁨" },
-    { name: "Judgement", position: "정방향", meaning: "깨달음과 재탄생" },
-    { name: "The World", position: "정방향", meaning: "완성과 성취" }
-  ];
-
-  cards.forEach((card, index) => {
-    card.addEventListener("click", () => {
-      const question = questionInput.value.trim();
-      if (!question) {
-        alert("질문을 먼저 작성해주세요.");
-        return;
-      }
-      if (cardSelected) return;
-
-      cardSelected = true;
-
-      // 흐려지기
-      cards.forEach((c, i) => {
-        if (i !== index) {
-          c.classList.add("blurred");
-        }
-      });
-
-      // 카드 이미지 설정
-      const selectedCard = cardList[Math.floor(Math.random() * cardList.length)];
-      const frontImg = card.querySelector(".card-front img");
-      frontImg.src = `images/universal_tarot_images/${selectedCard.name.replaceAll(" ", "_")}.png`;
-
-      // 카드 뒤집기 + 리딩 실행
-      card.classList.add("glow");
-      setTimeout(() => {
-        card.classList.add("flip");
-        setTimeout(() => {
-          showResult(selectedCard);
-        }, 800);
-      }, 300);
-    });
-  });
-
- function showResult(card) {
-  spinner.style.display = "block";
-  resultArea.innerText = "";
-  resultArea.style.display = "block";
-
-  fetch("https://enata-tarot-api-v2.onrender.com/generate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question: questionInput.value,
-      cards: [card]
-    })
-  })
-    .then(res => res.json())
-    .then(data => {
-      spinner.style.display = "none";
-      const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();  // ✅ [조언] 제거
-      const trimmed = cleaned.replace(/\s+/g, " ").slice(0, 150);       // ✅ 줄임
-      resultArea.innerText = trimmed + (cleaned.length > 150 ? "…" : "");  // ✅ 자연스러운 마무리
-    })
-    .catch(err => {
-      spinner.style.display = "none";
-      resultArea.innerText = "문제가 생겼어. 다시 해봐!";
-      console.error("🔥 API 오류:", err);
-    });
+/* 기본 배경 및 타이틀 설정 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Outfit', sans-serif;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  overflow-x: hidden;
 }
 
-});
+h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  color: #fff;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 18px rgba(255, 255, 100, 1);
+}
+
+/* 질문 입력 영역 */
+.question-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#userQuestion {
+  width: 80%;
+  max-width: 500px;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+}
+
+/* 버튼 */
+button,
+.consult-button {
+  font-size: 1rem;
+  padding: 10px 24px;
+  border-radius: 12px;
+  background-color: #ffc107;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+button:hover,
+.consult-button:hover {
+  background-color: #ffdb4d;
+}
+
+/* 카드 스타일 */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 100px;
+  height: 160px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+
+.card.flip .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-back {
+  background-color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-front {
+  transform: rotateY(180deg);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blurred {
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.glow {
+  box-shadow: 0 0 20px 10px #ffd700;
+  transition: box-shadow 0.3s ease;
+}
+
+/* 결과 텍스트 */
+.result {
+  white-space: pre-wrap;  /* ✅ 줄바꿈 유지하며 잘림 방지 */
+  padding: 20px;
+  font-size: 1rem;
+  max-width: 90%;
+  margin: 0 auto 30px;
+  white-space: pre-line;
+  line-height: 1.8;
+  overflow-wrap: break-word;
+  word-break: keep-all;
+}
+
+/* 로딩 스피너 */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #fff;
+  border-top: 5px solid transparent;
+  border-radius: 50%;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  #userQuestion {
+    width: 90%;
+    font-size: 0.95rem;
+  }
+
+  .cards {
+    gap: 10px;
+  }
+
+  .card {
+    width: 90px;
+    height: 145px;
+  }
+
+  .result {
+    font-size: 0.95rem;
+    paddi
