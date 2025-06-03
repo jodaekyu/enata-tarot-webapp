@@ -168,7 +168,11 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
       trigger: "다른질문"
     });
   }
-  location.reload();
+
+  // 🕒 300ms 지연 후 새로고침 (fetch 완료 시간 확보)
+  setTimeout(() => {
+    location.reload();
+  }, 300);
 });
 
 // 저장 함수 (timestamp 자동 생성)
