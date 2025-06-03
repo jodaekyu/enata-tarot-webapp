@@ -85,22 +85,22 @@ document.getElementById("retryBtn").addEventListener("click", () => {
   location.reload();
 });
 
-// 상담 예약 버튼
+// 상담 예약 버튼 클릭 이벤트
 document.getElementById("consultBtn").addEventListener("click", handleConsultClick);
 
-// 예약 처리 함수
 async function handleConsultClick() {
   const today = new Date();
   let targetDate = today;
 
+  // 22:30 이후면 다음날로 이동
   if (today.getHours() >= 22 && today.getMinutes() >= 30) {
-    targetDate = new Date(today.getTime() + 86400000); // 다음날
+    targetDate = new Date(today.getTime() + 86400000);
   }
 
   const yyyy = targetDate.getFullYear();
   const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
   const dd = String(targetDate.getDate()).padStart(2, "0");
-  const formattedDate = `${yyyy}/${mm}/${dd}`;
+  const formattedDate = `${yyyy}-${mm}-${dd}`;  // ← 링크에 사용될 날짜 형식
 
   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwH279bLKJYoI_GQVpSm_Y5yIVt04h4RHsl9-D2U4C1h37ERHp8moLZ5d5HCCyLbUeFCTylWXOvh8A/pub?gid=0&single=true&output=csv";
 
@@ -108,8 +108,8 @@ async function handleConsultClick() {
     const res = await fetch(csvUrl);
     const text = await res.text();
     const rows = text.split("\n").map(row => row.split(","));
-    const header = rows[0].slice(1); // 선생님 이름
-    const todayRow = rows.find(row => row[0].trim() === formattedDate);
+    const header = rows[0].slice(1);
+    const todayRow = rows.find(row => row[0].trim() === `${yyyy}/${mm}/${dd}`);
 
     if (!todayRow) {
       alert("오늘은 예약 가능한 선생님 정보가 없습니다.");
@@ -118,7 +118,7 @@ async function handleConsultClick() {
 
     const available = header
       .map((name, idx) => ({ name, idx }))
-      .filter(({ idx }) => todayRow[idx + 1]?.trim() === "O");
+      .filter(({ idx }) => todayRow[idx + 1]?.trim().toUpperCase() === "O");
 
     if (available.length === 0) {
       alert("오늘 예약 가능한 선생님이 없습니다.");
@@ -133,14 +133,20 @@ async function handleConsultClick() {
 
     const selected = available[0].name;
 
-    const links = {
-      "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928?area=pll&entry=pll&lang=ko",
-      "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454?area=pll&entry=pll&lang=ko",
-      "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827?area=pll&entry=pll&lang=ko",
-      "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140?area=pll&entry=pll&lang=ko",
-      "2호점-태연": "https://booking.naver.com/booking/13/bizes/362605/items/3450917?area=pll&entry=pll&lang=ko",
-      "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030?area=pll&entry=pll&lang=ko"
+    // 선생님별 기본 링크
+    const rawLinks = {
+      "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928",
+      "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454",
+      "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827",
+      "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140",
+      "2호점-태연": "https://booking.naver.com/booking/13/bizes/362605/items/3450917",
+      "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030"
     };
+
+    const baseQuery = `?area=pll&entry=pll&lang=ko&startDate=${formattedDate}`;
+    const links = Object.fromEntries(
+      Object.entries(rawLinks).map(([name, url]) => [name, `${url}${baseQuery}`])
+    );
 
     const link = links[selected];
     if (link) {
