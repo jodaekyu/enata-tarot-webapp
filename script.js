@@ -1,4 +1,3 @@
-
 import cardList from './cardList.js';
 
 const questionInput = document.getElementById("userQuestion");
@@ -39,7 +38,6 @@ function selectCard(cardElement, index) {
   if (cardSelected) return;
 
   cardSelected = true;
-  saveToSheet({ question, answer: "", teacher: "", consultClicked: false, trigger: "카드선택" });
 
   if (guideArea) guideArea.style.display = "none";
 
@@ -78,7 +76,7 @@ function showResult(card) {
 
       if (actionButtons) actionButtons.style.display = "flex";
 
-      // 30초 후 자동 저장
+      // ⏱️ 60초 후 자동 저장
       autoSaveTimer = setTimeout(() => {
         if (!savedOnce) {
           saveToSheet({
@@ -86,10 +84,10 @@ function showResult(card) {
             answer: resultArea.innerText.trim(),
             teacher: "",
             consultClicked: false,
-            trigger: "30초 대기 자동 저장"
+            trigger: "60초 대기 자동 저장"
           });
         }
-      }, 30000);
+      }, 60000);
     })
     .catch(err => {
       spinner.style.display = "none";
