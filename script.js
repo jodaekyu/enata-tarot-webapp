@@ -140,6 +140,13 @@ async function handleConsultClick() {
 
     const selected = available[0].name;
 
+saveToSheet({
+  question: questionInput.value.trim(),
+  answer: resultArea.innerText.trim(),
+  teacher: selected,
+  consultClicked: true
+});
+
     // 선생님별 기본 링크
     const rawLinks = {
       "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928",
