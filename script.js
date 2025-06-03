@@ -168,20 +168,17 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
       trigger: "다른질문"
     });
   }
-
-  // 🕒 300ms 지연 후 새로고침 (fetch 완료 시간 확보)
-  setTimeout(() => {
-    location.reload();
-  }, 300);
+  location.reload();
 });
 
 // 저장 함수 (timestamp 자동 생성)
 function saveToSheet({ question, answer, teacher, consultClicked, trigger }) {
-  const timestamp = new Date().toISOString();
+  const clean = (text) => text?.replace(/\+/g, " ");
+    const timestamp = new Date().toISOString();
   fetch("https://enata-sheets-proxy.onrender.com/save", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ timestamp, question, answer, teacher, consultClicked, trigger })
+    body: JSON.stringify({ timestamp, question: clean(question), answer: clean(answer), teacher: clean(teacher), consultClicked, trigger: clean(trigger) })
   });
   savedOnce = true;
 }
