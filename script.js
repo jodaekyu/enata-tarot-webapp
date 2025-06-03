@@ -8,13 +8,19 @@ const guideArea = document.getElementById("guideArea");
 const actionButtons = document.getElementById("actionButtons");
 let cardSelected = false;
 
+// 카드 3장 무작위 선택
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
 
 // 카드 이미지 삽입
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   cards.forEach((card, index) => {
     const frontImg = card.querySelector(".card-front img");
     frontImg.src = `images/universal_tarot_images/${randomThreeCards[index].name.replaceAll(" ", "_")}.png`;
+  });
+
+  // 카드 클릭 이벤트 연결
+  cards.forEach((card, index) => {
+    card.addEventListener("click", () => selectCard(card, index));
   });
 });
 
@@ -43,7 +49,7 @@ function selectCard(cardElement, index) {
   }, 300);
 }
 
-// AI 응답 결과 출력 함수
+// AI 응답 출력
 function showResult(card) {
   spinner.style.display = "block";
   resultArea.innerText = "";
@@ -63,7 +69,6 @@ function showResult(card) {
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
       resultArea.innerText = cleaned;
 
-      // ✅ 버튼 표시
       if (actionButtons) {
         actionButtons.style.display = "flex";
       }
@@ -75,21 +80,21 @@ function showResult(card) {
     });
 }
 
-// HTML onclick에서 사용할 수 있도록 전역에 등록
-window.selectCard = selectCard;
-
-// ✅ 버튼 기능 연결
+// 리트라이 버튼
 document.getElementById("retryBtn").addEventListener("click", () => {
   location.reload();
 });
 
-document.getElementById("consultBtn").addEventListener("click", () => {
-  window.location.href = "https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll&lang=ko&area=pll";
-});
+// 상담 예약 버튼
+document.getElementById("consultBtn").addEventListener("click", handleConsultClick);
 
-  // 22:30 이후면 다음 날 예약을 보여주도록 설정
+// 예약 처리 함수
+async function handleConsultClick() {
+  const today = new Date();
+  let targetDate = today;
+
   if (today.getHours() >= 22 && today.getMinutes() >= 30) {
-    targetDate = new Date(today.getTime() + 86400000); // +1일
+    targetDate = new Date(today.getTime() + 86400000); // 다음날
   }
 
   const yyyy = targetDate.getFullYear();
@@ -103,7 +108,6 @@ document.getElementById("consultBtn").addEventListener("click", () => {
     const res = await fetch(csvUrl);
     const text = await res.text();
     const rows = text.split("\n").map(row => row.split(","));
-
     const header = rows[0].slice(1); // 선생님 이름
     const todayRow = rows.find(row => row[0].trim() === formattedDate);
 
@@ -112,7 +116,6 @@ document.getElementById("consultBtn").addEventListener("click", () => {
       return;
     }
 
-    // 가능한 선생님만 걸러냄
     const available = header
       .map((name, idx) => ({ name, idx }))
       .filter(({ idx }) => todayRow[idx + 1]?.trim() === "O");
@@ -122,7 +125,7 @@ document.getElementById("consultBtn").addEventListener("click", () => {
       return;
     }
 
-    // 공정한 랜덤 선정을 위해 셔플
+    // 셔플
     for (let i = available.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [available[i], available[j]] = [available[j], available[i]];
@@ -130,14 +133,13 @@ document.getElementById("consultBtn").addEventListener("click", () => {
 
     const selected = available[0].name;
 
-    // 선생님별 예약 링크
     const links = {
-      "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place",
-      "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place",
-      "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place",
-      "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place",
-      "2호점-태연": "https://booking.naver.com/booking/13/bizes/362605/items/3450917?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place",
-      "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place"
+      "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928?area=pll&entry=pll&lang=ko",
+      "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454?area=pll&entry=pll&lang=ko",
+      "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827?area=pll&entry=pll&lang=ko",
+      "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140?area=pll&entry=pll&lang=ko",
+      "2호점-태연": "https://booking.naver.com/booking/13/bizes/362605/items/3450917?area=pll&entry=pll&lang=ko",
+      "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030?area=pll&entry=pll&lang=ko"
     };
 
     const link = links[selected];
@@ -151,4 +153,4 @@ document.getElementById("consultBtn").addEventListener("click", () => {
     console.error(e);
     alert("예약 정보를 불러오지 못했습니다.");
   }
-});
+}
