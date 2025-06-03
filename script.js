@@ -171,21 +171,7 @@ async function handleConsultClick() {
   }
 }
 
-// 리트라이 버튼
-retryBtn.addEventListener("click", () => {
-  if (!savedOnce) {
-    saveToSheet({
-      question: questionInput.value.trim(),
-      answer: resultArea.innerText.trim(),
-      teacher: "",
-      consultClicked: false,
-      trigger: "새로고침 또는 종료"
-    });
-  }
-  location.reload();
-});
-
-// 다른 질문 버튼 누를 때 저장
+// 다른 질문 버튼 클릭 시 저장
 document.getElementById("anotherBtn")?.addEventListener("click", () => {
   if (!savedOnce) {
     saveToSheet({
@@ -199,12 +185,13 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
   location.reload();
 });
 
-// 저장 함수
+// 저장 함수 (timestamp 자동 생성)
 function saveToSheet({ question, answer, teacher, consultClicked, trigger }) {
+  const timestamp = new Date().toISOString();
   fetch("https://enata-sheets-proxy.onrender.com/save", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, answer, teacher, consultClicked, trigger })
+    body: JSON.stringify({ timestamp, question, answer, teacher, consultClicked, trigger })
   });
   savedOnce = true;
 }
