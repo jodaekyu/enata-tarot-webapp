@@ -166,9 +166,12 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
       teacher: selectedTeacher,
       consultClicked: false,
       trigger: "다른질문"
+    }, () => {
+      location.reload(); // 저장 후 새로고침
     });
+  } else {
+    location.reload(); // 이미 저장된 경우 바로 새로고침
   }
-  location.reload();
 });
 
 // 저장 함수 (timestamp 자동 생성)
