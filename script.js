@@ -173,12 +173,28 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
 
 // 저장 함수 (timestamp 자동 생성)
 function saveToSheet({ question, answer, teacher, consultClicked, trigger }) {
-  const clean = (text) => text?.replace(/\+/g, " ");
-    const timestamp = new Date().toISOString();
+  const timestamp = new Date().toISOString();
+
+  // ✅ +를 공백으로 바꾸고, URL 디코딩 처리까지 포함
+  const clean = (text) =>
+    decodeURIComponent(text || "")
+      .replace(/\+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
   fetch("https://enata-sheets-proxy.onrender.com/save", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ timestamp, question: clean(question), answer: clean(answer), teacher: clean(teacher), consultClicked, trigger: clean(trigger) })
+    body: JSON.stringify({
+      timestamp,
+      question: clean(question),
+      answer: clean(answer),
+      teacher: clean(teacher),
+      consultClicked,
+      trigger: clean(trigger)
+    })
   });
+
   savedOnce = true;
 }
+
