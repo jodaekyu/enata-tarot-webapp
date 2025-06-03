@@ -1,3 +1,4 @@
+
 import cardList from './cardList.js';
 
 const questionInput = document.getElementById("userQuestion");
@@ -6,7 +7,11 @@ const spinner = document.getElementById("spinner");
 const resultArea = document.getElementById("resultArea");
 const guideArea = document.getElementById("guideArea");
 const actionButtons = document.getElementById("actionButtons");
+const retryBtn = document.getElementById("retryBtn");
+const consultBtn = document.getElementById("consultBtn");
 let cardSelected = false;
+let autoSaveTimer = null;
+let savedOnce = false;
 
 // 카드 3장 무작위 선택
 const randomThreeCards = [...cardList].sort(() => Math.random() - 0.5).slice(0, 3);
@@ -34,12 +39,7 @@ function selectCard(cardElement, index) {
   if (cardSelected) return;
 
   cardSelected = true;
-  saveToSheet({
-    question,
-    answer: "",
-    teacher: "",
-    consultClicked: false
-  });
+  saveToSheet({ question, answer: "", teacher: "", consultClicked: false, trigger: "카드선택" });
 
   if (guideArea) guideArea.style.display = "none";
 
@@ -76,9 +76,20 @@ function showResult(card) {
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
       resultArea.innerText = cleaned;
 
-      if (actionButtons) {
-        actionButtons.style.display = "flex";
-      }
+      if (actionButtons) actionButtons.style.display = "flex";
+
+      // 30초 후 자동 저장
+      autoSaveTimer = setTimeout(() => {
+        if (!savedOnce) {
+          saveToSheet({
+            question: questionInput.value.trim(),
+            answer: resultArea.innerText.trim(),
+            teacher: "",
+            consultClicked: false,
+            trigger: "30초 대기 자동 저장"
+          });
+        }
+      }, 30000);
     })
     .catch(err => {
       spinner.style.display = "none";
@@ -87,18 +98,12 @@ function showResult(card) {
     });
 }
 
-// 리트라이 버튼
-document.getElementById("retryBtn").addEventListener("click", () => {
-  location.reload();
-});
-
 // 상담 예약 버튼 클릭 이벤트
-document.getElementById("consultBtn").addEventListener("click", handleConsultClick);
+consultBtn.addEventListener("click", handleConsultClick);
 
 async function handleConsultClick() {
   const today = new Date();
   let targetDate = today;
-
   if (today.getHours() >= 22 && today.getMinutes() >= 30) {
     targetDate = new Date(today.getTime() + 86400000);
   }
@@ -106,7 +111,6 @@ async function handleConsultClick() {
   const yyyy = targetDate.getFullYear();
   const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
   const dd = String(targetDate.getDate()).padStart(2, "0");
-  const formattedDate = `${yyyy}-${mm}-${dd}`;
 
   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwH279bLKJYoI_GQVpSm_Y5yIVt04h4RHsl9-D2U4C1h37ERHp8moLZ5d5HCCyLbUeFCTylWXOvh8A/pub?gid=0&single=true&output=csv";
 
@@ -142,7 +146,8 @@ async function handleConsultClick() {
       question: questionInput.value.trim(),
       answer: resultArea.innerText.trim(),
       teacher: selected,
-      consultClicked: true
+      consultClicked: true,
+      trigger: "예약시도"
     });
 
     const rawLinks = {
@@ -154,32 +159,54 @@ async function handleConsultClick() {
       "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030"
     };
 
-    const baseQuery = `?area=pll&entry=pll&lang=ko&startDate=${formattedDate}`;
+    const baseQuery = `?area=pll&entry=pll&lang=ko&startDate=${yyyy}-${mm}-${dd}`;
     const links = Object.fromEntries(
       Object.entries(rawLinks).map(([name, url]) => [name, `${url}${baseQuery}`])
     );
 
     const link = links[selected];
-    if (link) {
-      window.open(link, "_blank");
-    } else {
-      alert("예약 링크를 찾을 수 없습니다.");
-    }
+    if (link) window.open(link, "_blank");
+    else alert("예약 링크를 찾을 수 없습니다.");
   } catch (e) {
     console.error(e);
     alert("예약 정보를 불러오지 못했습니다.");
   }
 }
 
-function saveToSheet({ question, answer, teacher, consultClicked }) {
- fetch("https://enata-sheets-proxy.onrender.com/save", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    question,
-    answer,
-    teacher,
-    consultClicked
-  })
+// 리트라이 버튼
+retryBtn.addEventListener("click", () => {
+  if (!savedOnce) {
+    saveToSheet({
+      question: questionInput.value.trim(),
+      answer: resultArea.innerText.trim(),
+      teacher: "",
+      consultClicked: false,
+      trigger: "새로고침 또는 종료"
+    });
+  }
+  location.reload();
 });
+
+// 다른 질문 버튼 누를 때 저장
+document.getElementById("anotherBtn")?.addEventListener("click", () => {
+  if (!savedOnce) {
+    saveToSheet({
+      question: questionInput.value.trim(),
+      answer: resultArea.innerText.trim(),
+      teacher: "",
+      consultClicked: false,
+      trigger: "다른질문"
+    });
+  }
+  location.reload();
+});
+
+// 저장 함수
+function saveToSheet({ question, answer, teacher, consultClicked, trigger }) {
+  fetch("https://enata-sheets-proxy.onrender.com/save", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question, answer, teacher, consultClicked, trigger })
+  });
+  savedOnce = true;
 }
