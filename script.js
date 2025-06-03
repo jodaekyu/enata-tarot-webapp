@@ -172,14 +172,14 @@ async function handleConsultClick() {
 }
 
 function saveToSheet({ question, answer, teacher, consultClicked }) {
-  fetch("https://enata-sheets-proxy.onrender.com/save", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      question,
-      answer,
-      teacher,
-      consultClicked
-    })
-  });
+ fetch("https://enata-tarot-api-v2.onrender.com/save", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    question,
+    answer,
+    teacher,
+    consultClicked
+  })
+});
 }
