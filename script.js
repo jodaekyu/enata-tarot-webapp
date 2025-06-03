@@ -34,6 +34,13 @@ function selectCard(cardElement, index) {
   if (cardSelected) return;
 
   cardSelected = true;
+  saveToSheet({
+    question,
+    answer: "",
+    teacher: "",
+    consultClicked: false
+  });
+
   if (guideArea) guideArea.style.display = "none";
 
   cards.forEach((c, i) => {
@@ -159,4 +166,17 @@ async function handleConsultClick() {
     console.error(e);
     alert("예약 정보를 불러오지 못했습니다.");
   }
+}
+
+function saveToSheet({ question, answer, teacher, consultClicked }) {
+  fetch("https://script.google.com/macros/s/AKfycbzH5K50hiNgPvLWyLmg0BkUKQnLlbXdq8cOLDVpnfu11SQEC-ecXrz5yNvoXEExvRVr/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question,
+      answer,
+      teacher,
+      consultClicked
+    })
+  });
 }
