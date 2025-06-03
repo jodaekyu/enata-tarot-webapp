@@ -99,7 +99,6 @@ async function handleConsultClick() {
   const today = new Date();
   let targetDate = today;
 
-  // 22:30 이후면 다음날로 이동
   if (today.getHours() >= 22 && today.getMinutes() >= 30) {
     targetDate = new Date(today.getTime() + 86400000);
   }
@@ -107,7 +106,7 @@ async function handleConsultClick() {
   const yyyy = targetDate.getFullYear();
   const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
   const dd = String(targetDate.getDate()).padStart(2, "0");
-  const formattedDate = `${yyyy}-${mm}-${dd}`;  // ← 링크에 사용될 날짜 형식
+  const formattedDate = `${yyyy}-${mm}-${dd}`;
 
   const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwH279bLKJYoI_GQVpSm_Y5yIVt04h4RHsl9-D2U4C1h37ERHp8moLZ5d5HCCyLbUeFCTylWXOvh8A/pub?gid=0&single=true&output=csv";
 
@@ -132,7 +131,6 @@ async function handleConsultClick() {
       return;
     }
 
-    // 셔플
     for (let i = available.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [available[i], available[j]] = [available[j], available[i]];
@@ -140,14 +138,13 @@ async function handleConsultClick() {
 
     const selected = available[0].name;
 
-saveToSheet({
-  question: questionInput.value.trim(),
-  answer: resultArea.innerText.trim(),
-  teacher: selected,
-  consultClicked: true
-});
+    saveToSheet({
+      question: questionInput.value.trim(),
+      answer: resultArea.innerText.trim(),
+      teacher: selected,
+      consultClicked: true
+    });
 
-    // 선생님별 기본 링크
     const rawLinks = {
       "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928",
       "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454",
@@ -168,7 +165,6 @@ saveToSheet({
     } else {
       alert("예약 링크를 찾을 수 없습니다.");
     }
-
   } catch (e) {
     console.error(e);
     alert("예약 정보를 불러오지 못했습니다.");
@@ -176,7 +172,7 @@ saveToSheet({
 }
 
 function saveToSheet({ question, answer, teacher, consultClicked }) {
-  fetch("https://script.google.com/macros/s/AKfycbzH5K50hiNgPvLWyLmg0BkUKQnLlbXdq8cOLDVpnfu11SQEC-ecXrz5yNvoXEExvRVr/exec", {
+  fetch("https://enata-sheets-proxy.onrender.com/save", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
