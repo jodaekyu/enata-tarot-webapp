@@ -218,6 +218,8 @@ button:hover,
 }
 
 .tarot-button {
+  flex: 1; /* 버튼 너비를 균등하게 */
+  min-height: 80px; /* 버튼 높이 늘리기 */
   padding: 12px 24px;
   border-radius: 12px;
   border: 1px solid #ffd700;
@@ -228,6 +230,14 @@ button:hover,
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+
+  display: flex;           /* 내용 중앙 정렬 위해 flex */
+  align-items: center;     /* 세로 중앙 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  text-align: center;
+  white-space: normal;     /* 줄바꿈 허용 */
+  line-height: 1.4;
+  word-break: keep-all;
 }
 
 .tarot-button:hover {
@@ -235,6 +245,7 @@ button:hover,
   box-shadow: 0 0 14px rgba(255, 215, 0, 0.5);
   transform: translateY(-1px);
 }
+
 
 
 @keyframes spin {
