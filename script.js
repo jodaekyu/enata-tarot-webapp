@@ -176,7 +176,12 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
 
 // 저장 함수 (timestamp 자동 생성)
 function saveToSheet({ question, answer, teacher, consultClicked, trigger }, callback) {
-  const clean = (text) => text?.replace(/\+/g, " ");
+  const clean = (text) =>
+    text
+      ?.replace(/\+/g, " ")
+      .replace(/\\n/g, "\n")
+      .trim();
+
   const timestamp = new Date().toISOString();
   fetch("https://enata-sheets-proxy.onrender.com/save", {
     method: "POST",
@@ -195,4 +200,3 @@ function saveToSheet({ question, answer, teacher, consultClicked, trigger }, cal
       if (callback) callback(); // 저장 후 콜백 실행
     });
 }
-
