@@ -157,9 +157,12 @@ consultBtn.addEventListener("click", () => {
   else alert("예약 링크를 찾을 수 없습니다.");
 });
 
-// 다른 질문 버튼 클릭 시 저장
+// 다른 질문 버튼 클릭 시 저장 (수정된 부분)
 document.getElementById("anotherBtn")?.addEventListener("click", () => {
+  const btn = document.getElementById("anotherBtn");
   if (!savedOnce) {
+    btn.disabled = true; // 버튼 즉시 비활성화
+
     saveToSheet({
       question: questionInput.value.trim(),
       answer: resultArea.innerText.trim(),
@@ -167,7 +170,7 @@ document.getElementById("anotherBtn")?.addEventListener("click", () => {
       consultClicked: false,
       trigger: "다른질문"
     }, () => {
-      location.reload(); // 저장 후 새로고침
+      location.reload(); // 저장 완료 후 새로고침
     });
   } else {
     location.reload(); // 이미 저장된 경우 바로 새로고침
