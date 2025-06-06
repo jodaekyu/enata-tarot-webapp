@@ -72,6 +72,7 @@ function showResult(card) {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
       resultArea.innerText = cleaned;
+document.getElementById("extraMessage").style.display = "block";
       if (actionButtons) actionButtons.style.display = "flex";
 
       // 선생님 선택 로직
