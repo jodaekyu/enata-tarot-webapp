@@ -145,7 +145,7 @@
     if (now.getHours() >= 22 && now.getMinutes() >= 30) {
       now.setDate(now.getDate() + 1);
     }
-  return now.toISOString().split("T")[0]; // ✅ 슬래시(/)가 아닌 하이픈(-) 유지
+  return `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}`;
 }
 
   function setRandomReservationLink() {
