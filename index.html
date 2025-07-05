@@ -140,12 +140,17 @@
     "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030?area=pll&entry=pll&lang=ko&startDate=2025-06-02&theme=place"
   };
 
-  function getTodayDate() {
-    const now = new Date();
-    if (now.getHours() >= 22 && now.getMinutes() >= 30) {
-      now.setDate(now.getDate() + 1);
-    }
-  return `${now.getFullYear()}. ${now.getMonth() + 1}. ${now.getDate()}`;
+function getTodayDate() {
+  const now = new Date();
+  if (now.getHours() >= 22 && now.getMinutes() >= 30) {
+    now.setDate(now.getDate() + 1);
+  }
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const date = String(now.getDate()).padStart(2, "0");
+
+  return `${year}/${month}/${date}`;
 }
 
   function setRandomReservationLink() {
