@@ -145,8 +145,8 @@
     if (now.getHours() >= 22 && now.getMinutes() >= 30) {
       now.setDate(now.getDate() + 1);
     }
-    return now.toISOString().split("T")[0].replace(/-/g, "/");
-  }
+  return now.toISOString().split("T")[0]; // ✅ 슬래시(/)가 아닌 하이픈(-) 유지
+}
 
   function setRandomReservationLink() {
     Papa.parse(SHEET_URL, {
