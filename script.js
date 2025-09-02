@@ -72,7 +72,6 @@ function showResult(card) {
       spinner.style.display = "none";
       const cleaned = data.result.replace(/^\[조언\]\s*/, "").trim();
       resultArea.innerText = cleaned;
-document.getElementById("extraMessage").style.display = "block";
       if (actionButtons) actionButtons.style.display = "flex";
 
       // 선생님 선택 로직
@@ -135,9 +134,19 @@ consultBtn.addEventListener("click", () => {
     trigger: "예약시도"
   });
 
-  const link = "https://https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll&lang=ko&area=pll";
-  window.open(link, "_blank");
-});
+  const yyyy = new Date().getFullYear();
+  const mm = String(new Date().getMonth() + 1).padStart(2, "0");
+  const dd = String(new Date().getDate()).padStart(2, "0");
+  const baseQuery = `?area=pll&entry=pll&lang=ko&startDate=${yyyy}-${mm}-${dd}`;
+
+  const rawLinks = {
+    "1호점-안나": "https://booking.naver.com/booking/13/bizes/198330/items/2929928",
+    "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454",
+    "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827",
+    "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140",
+    "2호점-태연": "https://booking.naver.com/booking/13/bizes/362605/items/3450917",
+    "2호점-안나": "https://booking.naver.com/booking/13/bizes/362605/items/5293030"
+  };
 
   const links = Object.fromEntries(
     Object.entries(rawLinks).map(([name, url]) => [name, `${url}${baseQuery}`])
@@ -194,4 +203,3 @@ function saveToSheet({ question, answer, teacher, consultClicked, trigger }, cal
       if (callback) callback(); // 저장 후 콜백 실행
     });
 }
-
