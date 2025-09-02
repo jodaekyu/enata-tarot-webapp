@@ -75,7 +75,32 @@ function showResult(card) {
 document.getElementById("extraMessage").style.display = "block";
       if (actionButtons) actionButtons.style.display = "flex";
 
-     
+      // 선생님 선택 로직
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+
+      const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSwH279bLKJYoI_GQVpSm_Y5yIVt04h4RHsl9-D2U4C1h37ERHp8moLZ5d5HCCyLbUeFCTylWXOvh8A/pub?gid=0&single=true&output=csv";
+
+      fetch(csvUrl)
+        .then(res => res.text())
+        .then(text => {
+          const rows = text.split("\n").map(row => row.split(","));
+          const header = rows[0].slice(1);
+          const todayRow = rows.find(row => row[0].trim() === `${yyyy}/${mm}/${dd}`);
+          if (!todayRow) return;
+
+          const available = header
+            .map((name, idx) => ({ name, idx }))
+            .filter(({ idx }) => todayRow[idx + 1]?.trim().toUpperCase() === "O");
+
+          if (available.length > 0) {
+            const shuffled = available.sort(() => Math.random() - 0.5);
+            selectedTeacher = shuffled[0].name;
+          }
+        });
+
       autoSaveTimer = setTimeout(() => {
         if (!savedOnce) {
           saveToSheet({
@@ -169,6 +194,4 @@ function saveToSheet({ question, answer, teacher, consultClicked, trigger }, cal
       if (callback) callback(); // 저장 후 콜백 실행
     });
 }
-
-
 
