@@ -135,7 +135,7 @@ consultBtn.addEventListener("click", () => {
     trigger: "예약시도"
   });
 
-  const link = "https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll&lang=ko&area=pll";
+  const link = "https://https://m.booking.naver.com/booking/13/bizes/198330?theme=place&entry=pll&lang=ko&area=pll";
   window.open(link, "_blank");
 });
 
@@ -194,4 +194,5 @@ function saveToSheet({ question, answer, teacher, consultClicked, trigger }, cal
       if (callback) callback(); // 저장 후 콜백 실행
     });
 }
+
 
