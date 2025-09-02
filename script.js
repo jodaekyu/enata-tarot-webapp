@@ -144,7 +144,7 @@ consultBtn.addEventListener("click", () => {
     "1호점-카라": "https://booking.naver.com/booking/13/bizes/198330/items/5914454",
     "1호점-경희": "https://booking.naver.com/booking/13/bizes/198330/items/3466827",
     "1호점-키르케": "https://booking.naver.com/booking/13/bizes/198330/items/3932140",
-    "1호점-태연": "booking.naver.com/booking/13/bizes/198330/items/7037822",
+    "1호점-태연": "https://booking.naver.com/booking/13/bizes/198330/items/7037822",
   };
 
   const links = Object.fromEntries(
@@ -202,4 +202,5 @@ function saveToSheet({ question, answer, teacher, consultClicked, trigger }, cal
       if (callback) callback(); // 저장 후 콜백 실행
     });
 }
+
 
